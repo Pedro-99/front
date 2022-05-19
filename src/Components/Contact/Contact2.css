@@ -1,0 +1,31 @@
+ #contact2  {
+    background-image: linear-gradient(120deg, rgb(230, 217, 152) 0%, #4d4d4d 100%);
+    width: 100%;
+  }
+  #contact2  .company-info_box{
+    margin-bottom: 30px;
+  }
+  #contact2   .company-info_box i{
+      font-size: 20px;
+      color: #fff;
+  }
+  
+  #contact2   .company-info_box i span{
+      color: white !important;
+      font-weight: bold;
+  }
+  
+  #contact2   .company-info_box p{
+      color: #fff;
+  }
+  
+  #contact2   .company-info-social-icons {
+      margin-top: 5px;
+  }
+  
+  #contact2   .company-info-social-icons li a i{
+      color: #5d5757;
+      font-size: 17px;
+  }
+  
+  

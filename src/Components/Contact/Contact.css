@@ -1,0 +1,51 @@
+#contact .bg-light{
+    background-color: #f2f2f2;
+  }
+  #contact  .my-form .form-group {
+    position: relative;
+}
+
+#contact .my-form label {
+    position: absolute;
+    top: 14%;
+    font-size: 25px;
+    margin-left: 14px;
+}
+
+#contact .my-form .form-group label i {
+    color: #09aba9;
+    font-size: 24px;
+}
+
+#contact .my-form .form-control {
+    height: 50px;
+    background-color: transparent;
+    padding: 0 20px 0 50px;
+    font-size: 15px;
+    box-shadow: none;
+}
+
+#contact .my-form .form-control-text {
+    height: 100px;
+    background-color: transparent;
+    padding: 0 20px 0 50px;
+    font-size: 15px;
+    box-shadow: none;
+}
+
+#contact .btn-common {
+    border: 2px solid #09aba9;
+    background-color: #09aba9;
+    position: relative;
+    z-index: 1;
+    border-radius: 4px;
+    color: #fff !important;
+  }
+  #contact  .btn-common:hover {
+    color: #09aba9 !important;
+    background-color: transparent;
+    border: 2px solid #09aba9;
+    transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+  }

@@ -1,0 +1,87 @@
+#reviews .section-head {
+    color: rgb(176, 176, 176);
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+#reviews .section-head .section-title, .main-title {
+    font-size: 42px;
+    margin-top: 0;
+    font-weight: 600;
+    color: rgb(0, 0, 0);
+    position: relative;
+  }
+
+  #reviews .section-head .lines {
+    margin: auto;
+    width: 70px;
+    position: relative;
+    border-top: 2px solid #000000;
+    margin-top: 15px;
+  }
+
+#reviews .section-head .section-title span {
+    color: #a8a8a8;
+  }
+
+#reviews .card {
+    width: 290px;
+    background-color: #efefef;
+    border: none;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+#reviews .image img {
+    transition: all 0.5s
+}
+
+#reviews .card:hover .image img {
+    transform: scale(1.3)
+}
+
+
+#reviews .name {
+    font-size: 22px;
+    font-weight: bold
+}
+
+#reviews .idd {
+    font-size: 14px;
+    font-weight: 600
+}
+
+#reviews .idd1 {
+    font-size: 12px
+}
+
+
+#reviews .follow {
+    font-size: 12px;
+    font-weight: 500;
+    color: #444444
+}
+
+#reviews .text span {
+    font-size: 13px;
+    color: #545454;
+    font-weight: 500
+}
+
+#reviews .icons i {
+    font-size: 19px
+}
+
+#reviews hr .new1 {
+    border: 1px solid
+}
+
+#reviews .join {
+    font-size: 14px;
+    color: #a0a0a0;
+    font-weight: bold
+}
+
+#reviews .date {
+    background-color: #ccc
+}

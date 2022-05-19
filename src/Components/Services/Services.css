@@ -1,0 +1,144 @@
+#services2 {
+    position: relative;
+    background: #f2f2f2;
+    padding-bottom: 50px;
+  }
+#services2 .item-box .icon{
+    border:0;
+  }
+#services2 .section {
+    padding: 80px 0;
+  }
+#services2 .section-head {
+    color: #fff;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  #services2  .section-head .section-title, .main-title {
+    font-size: 42px;
+    margin-top: 0;
+    font-weight: 600;
+    color: rgb(230, 217, 152);
+    position: relative;
+  }
+  
+  #services2 .section-head .section-title span {
+    color: #2a3855;
+  }
+  #services2 .section-head .section-subtitle {
+    margin-top: 15px;
+    color: #333;
+    font-size: 15px;
+    font-weight: 400;
+  }
+  #services2 .section-head .lines {
+    margin: auto;
+    width: 70px;
+    position: relative;
+    border-top: 2px solid #0e365a;
+    margin-top: 15px;
+  }
+  #services2 .section-head .line-left {
+    width: 70px;
+    position: relative;
+    border-top: 2px solid #0e365a;
+    margin-top: 15px;
+  }
+  @-webkit-keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+  
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+  
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  #services2 .fadeIn {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+  }  
+  @-webkit-keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(-20px);
+      transform: translateY(-20px);
+    }
+  
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(-20px);
+      -ms-transform: translateY(-20px);
+      transform: translateY(-20px);
+    }
+  
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0);
+      -ms-transform: translateY(0);
+      transform: translateY(0);
+    }
+  }
+  
+  #services2 .fadeInDown {
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+  }
+  #services2   .item-box {
+    text-align: center;
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    /* background-color: #09aba9; */
+    background-color: rgb(68, 68, 68);
+  }
+  #services2  .item-box .icon {
+    width: 75px;
+    height: 75px;
+    text-align: center;
+    border: 1px solid #ffffff;
+    display: inline-block;
+    border-radius: 50px;
+    margin-bottom: 15px;
+    -webkit-transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+  }
+  #services2  .item-box .icon i {
+    font-size: 30px;
+    line-height: 75px;
+    color: #fff;
+  }
+  #services2  .item-box h4 {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  #services2  .item-box p {
+    color: #fff;
+  }
+  #services2  .item-box:hover {
+    background: rgb(230, 217, 152);
+    box-shadow: 0 8px 48px 0 rgba(0, 0, 0, 0.15);
+  }

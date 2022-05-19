@@ -1,3 +1,57 @@
 #swiper .text-color{
     color: rgb(0, 0, 0);
 }
+
+@media screen and (min-width: 500px) {
+    #swiper .card-title{
+        font-size: 3vw;
+    }
+    
+    #swiper .card-text{
+        font-size:0.1vw;
+    }
+  }
+  
+  /* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
+  @media screen and (max-width: 600px) {
+    #swiper .card-title{
+        font-size:7vw;
+    }
+
+    #swiper .card-text{
+        font-size:2vw;
+    }
+    
+  }
+
+#swiper .info-container{
+    padding: 1rem 4rem;
+    transform: translate(-0%, -1500%);
+}
+
+#swiper .title{
+    font-size: 70px;
+}
+
+#swiper .par-stl{
+    margin: 50px 0px;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 3px;
+}
+
+#swiper .btn:hover{
+    font-size: 20px;
+    /* background-color: transparent; */
+    background-color: rgb(126, 126, 126);
+    cursor: pointer;
+    border-color: beige;
+    color: aliceblue;
+
+}
+
+#swiper .hero{
+    height: 100%;
+    display: flex;
+    transition: all 1.5s ease;
+}

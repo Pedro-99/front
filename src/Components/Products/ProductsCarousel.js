@@ -1,7 +1,11 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import LastestProducts from "./LastestProducts";
+import React, { useRef, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Pagination, Navigation, Autoplay } from "swiper";
+import "swiper/css/effect-coverflow";
 import "./LastestProducts.css"
-import 'swiper/css';
 const Title = () =>{
     return(
         <div>
@@ -19,11 +23,12 @@ const Title = () =>{
 
 const Card = () =>{
     return(
-        <div id='products' className="product-grid">
+        <div  id='products' >
+        <div className="product-grid">
             <div className="product-image">
                 <a href="#" className="image">
-                    <img src="/assests/B.png" className="img-1" />
-                    <img src="/assests/m.png" className="img-2" />
+                    <img src="/assests/frontpro1.jpeg" className="img-1" />
+                    <img src="/assests/backpro1.jpeg" className="img-2" />
                 </a>
                 <ul class="product-links">
                     <li><a href="#"><i class="fa fa-heart"></i></a></li>
@@ -45,35 +50,60 @@ const Card = () =>{
                 <div class="price">$65.99</div>
             </div>
         </div>
-
+        </div>
     );
 }
-const ProCaros = () => {
-  return (
-      <>
-      <Title />
-    <Swiper
-      spaceBetween={50}
-      slidesPerView={1}
-      onSlideChange={() => console.log('slide change')}
-      onSwiper={(swiper) => console.log(swiper)}
-    >
-      <SwiperSlide>
-          <Card />
-      </SwiperSlide>
-      <SwiperSlide>
-          <Card />
-      </SwiperSlide>
-      <SwiperSlide>
-      <Card />
-      </SwiperSlide>
-      <SwiperSlide>
-      <Card />
-      </SwiperSlide>
-    </Swiper>
 
+export default function ProCaros() {
+  return (
+    <>
+    <Title />
+      <Swiper
+              slidesPerView={3}
+              spaceBetween={30}
+              slidesPerGroup={3}
+              loop={true}
+              loopFillGroupWithBlank={true}
+              pagination={{
+                clickable: true,
+              }}
+              style={{
+                "--swiper-navigation-color": "rgb(230, 217, 152)",
+                "--swiper-pagination-color": "#fff",
+              }}
+              navigation={true}
+              modules={[Autoplay, Pagination, Navigation]}
+              className="mySwiper"
+        //...........................
+        // slidesPerView={1}
+        // spaceBetween={10}
+        // breakpoints={{
+        //   640: {
+        //     slidesPerView: 2,
+        //     spaceBetween: 20,
+        //   },
+        //   768: {
+        //     slidesPerView: 4,
+        //     spaceBetween: 40,
+        //   },
+        //   1024: {
+        //     slidesPerView: 5,
+        //     spaceBetween: 50,
+        //   },
+        // }}
+        // modules={[Pagination]}
+        // className="mySwiper"
+      >
+        <SwiperSlide><Card /></SwiperSlide>
+        <SwiperSlide><Card /></SwiperSlide>
+        <SwiperSlide><Card /></SwiperSlide>
+        <SwiperSlide><Card /></SwiperSlide>
+        <SwiperSlide><Card /></SwiperSlide>
+        <SwiperSlide><Card /></SwiperSlide>
+        <SwiperSlide><Card /></SwiperSlide>
+        <SwiperSlide><Card /></SwiperSlide>
+        <SwiperSlide><Card /></SwiperSlide>
+      </Swiper>
     </>
   );
-};
-
-export default ProCaros;
+}

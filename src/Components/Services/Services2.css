@@ -1,0 +1,133 @@
+#features {
+    /* background: url(../../../public/assests/5.png) fixed no-repeat; */
+    background: url(../../../public/assests/1.png) fixed no-repeat;
+    background-size: cover;
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  #features .overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background: #000000;
+    opacity: 0.5;
+    filter: alpha(opacity=10);
+
+  }
+  #features .section-heading h2{
+    font-size: 40px;
+    font-weight: 600;
+    box-shadow: #ffffff;
+  }
+  
+  #features .section-title {
+    color: #fff;
+    font-size: 35px;
+    margin-top: 0;
+    text-transform: uppercase;
+    font-weight: 600;
+    position: relative;
+
+  }
+  #features .section-header {
+    color: #fff;
+    margin-bottom: 40px;
+    margin-top: 50px;
+  }
+  #features .section-subtitle {
+    color: #fff !important;
+    /* position: relative; */
+  }
+  
+  #features .icon {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  #features .box-item {
+    padding: 15px 0;
+  }
+  
+  #features .box-item .icon {
+    text-align: right;
+    float: right;
+    color: #5969dc;
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+  }
+  
+  #features .box-item .icon i {
+    font-size: 42px;
+    line-height: 60px;
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+  }
+  
+  #features .box-item .text {
+    padding-left: 80px;
+  }
+  
+  #features .text h4 {
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    line-height: 22px;
+    position: relative;
+    /* text-align: right; */
+  }
+  
+  #features .box-item .text p {
+    font-size: 14px;
+    line-height: 26px;
+    position: relative;
+    /* text-align: right; */
+  }
+  
+  #features .show-box img {
+    position: absolute;
+    bottom: -120px;
+  }
+
+  #features .lines {
+    margin: auto;
+    width: 70px;
+    position: relative;
+    border-top: 2px solid #ffffff;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  #features .section {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+  #features .button-style{
+    padding: 10px;
+    font-size: 20px;
+    background-color: transparent;
+    /* cursor: pointer; */
+    border-color: #ffffff;
+    color: aliceblue;
+    position: relative;
+}
+#features .button-style:hover{
+    background-color: rgba(0, 0, 0, 0.388);
+    cursor: pointer;
+    border-color: rgb(230, 217, 152);
+    color: rgb(230, 217, 152);
+    position: relative;
+}
