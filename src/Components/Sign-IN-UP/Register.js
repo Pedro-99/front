@@ -52,7 +52,7 @@ const Register = () => {
                                 </div>
                                 <div className="row mb-4 px-3">
                                     <small className="font-weight-bold">Already have an account?
-                                        <a className="text-danger " href="/Sign-In">Login</a></small>
+                                    <a className="text-danger " href="/login">Login</a></small>
                                 </div>
                             </div>
                         </div>
