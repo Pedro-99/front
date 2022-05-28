@@ -1,40 +1,34 @@
-.nav {
-    width : 100%;
-    height : 100px;
-    display : flex;
-    justify-content : space-between;
-    align-items : center;
-    padding-left: 15px;
-    padding-right: 15px;
-    
+
+#nav-style .img-style {
+    height: 30px;
+    width: 100%;
+    background-color: transparent;
+}
+@media screen and (max-width: 990px) {
+    #nav-style .img-style {
+        height: 45px;
+        width: 80%;
+    }
+    #nav-style .navbar-collapse.navbar-nav>li {
+        text-align: center !important;
+    }
+    #nav-style .nav-link {
+        text-align: center !important;
+    }
+    #nav-style .dropdown-item {
+        text-align: center !important;
+    }
 }
 
-.nav .leftSide {
-    height : 100%;
-    width :120px;
+#nav-style .btn:hover{
+    background-color: #fff;
+    color: #4c4c4c;
 }
 
-.nav .leftSide .logo {
-    width : 100%;
-    height : 100%;
-    object-fit: cover;
-}
-.nav .rightSide {
-    height : 100%;
-    /* width : 300px; */
-    display : flex;
-    flex-direction : row;
-    gap : 20px;
-    justify-content : space-around;
-    align-items : center;
+#nav-style .nav-link:hover{
+    color: #fff;
 }
 
-.nav .rightSide > a {
-    text-decoration : none;
-    color : black;
-    font-size : 20px;
-}
-
-@media screen and (max-width:780px){
-    
+#nav-style .nav-link{
+    color: #4c4c4c;
 }

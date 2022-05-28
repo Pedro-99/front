@@ -1,0 +1,15 @@
+#drop .dropdown-container {
+    display: none;
+    background-color: #262626;
+    padding-left: 8px;
+}
+
+#option .btn{
+    color: #fff;
+    background-color: #4c4c4c;
+}
+
+#option .btn:hover{
+    color: #4c4c4c;
+    background-color: rgb(230, 217, 152);
+}

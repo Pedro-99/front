@@ -1,0 +1,189 @@
+#contact .section {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+
+#contact .contact-block{
+    margin-top: 30px;
+}
+  #contact {
+    background: rgb(255, 255, 255);
+    color: #343a40;
+    position: relative;
+    margin-bottom: 0px;
+    /* margin-top: 15px; */
+  }
+  #contact .contact-us h3 {
+    font-size: 30px;
+    margin-bottom: 45px;
+    margin-top: 15px;
+  }
+  
+  #contact .contact-us p span {
+    color: #818181;
+    padding-left: 10px;
+  }
+/* ==========================================================================
+   2.3 Social Iocns
+   ========================================================================== */
+   #contact  .social-icons {
+    margin-top: 40px;
+  }
+  
+  #contact .social-icons ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  #contact .social-icons ul li {
+    display: inline;
+  }
+  
+  #contact .social-icons ul li a {
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 15px;
+    border-radius: 50%;
+    line-height: 40px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    background: #ddd;
+    font-size: 16px;
+  }
+  
+  #contact .social-icons ul li a:hover {
+    color: #fff;
+  }
+  
+  #contact .facebook a {
+    color: #4867AA;
+  }
+  
+  #contact .facebook a:hover {
+    background: #4867AA;
+  }
+  
+  #contact .twitter a {
+    color: #1DA1F2;
+  }
+  
+  #contact .twitter a:hover {
+    background: #1DA1F2;
+  }
+  
+  #contact .google-plus a {
+    color: #DD4D42;
+  }
+  
+  #contact .google-plus a:hover {
+    background: #DD4D42;
+  }
+  
+  #contact .youtube a {
+    color: #DF2926;
+  }
+  
+  #contact .youtube a:hover {
+    background: #DF2926;
+  }
+  
+  #contact .linkedin a {
+    color: #007BB6;
+  }
+  
+  #contact .linkedin a:hover {
+    background: #007BB6;
+  }
+  
+  #contact .pinterest a {
+    color: #BD081C;
+  }
+  
+  #contact .pinterest a:hover {
+    background: #BD081C;
+  }
+  
+  #contact .dribbble a {
+    color: #EA4C89;
+  }
+  
+  #contact .dribbble a:hover {
+    background: #EA4C89;
+  }
+  
+  #contact .behance a {
+    color: #0B7CFF;
+  }
+  
+  #contact .behance a:hover {
+    background: #0B7CFF;
+  }
+
+  #contact .phone{
+      color: #000000;
+  }
+/* ------------------------- */
+
+#contact .form-control {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 14px;
+    border-color: rgb(2, 2, 2);
+    border-radius: 0px;
+    color: rgb(0, 0, 0);
+    background: transparent;
+    font-size: 14px;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    -webkit-border-radius: 0px;
+    border-radius: 25px;
+    -webkit-animation-delay: 1.4s;
+    animation-delay: 1.4s;
+  }
+  
+  #contact .form-control:focus {
+    box-shadow: none;
+    color: rgb(0, 0, 0);
+    border-color: #3b3b3b;
+    background: transparent;
+    outline: none;
+  }
+
+  #contact .sub-btn{
+      color: #fff;
+      cursor: pointer;
+      display: inline-block;
+      align-items: center;
+      text-transform: uppercase;
+      border: 2px solid #3b3b3b;
+      background-color: #3b3b3b;
+      -webkit-border-radius: 0px;
+      border-radius: 25px;
+      -webkit-animation-delay: 1.4s;
+      animation-delay: 1.4s;
+  }
+
+  #contact .sub-btn:hover{
+    border: 2px solid rgb(230, 217, 152);
+
+}
+
+  #contact .sub-btn:hover{
+    color: rgb(230, 217, 152);
+    align-items: center;
+    background-color: rgba(243, 243, 243, 0.877);
+}
+
+#contact .lines {
+    margin: auto;
+    width: 100px;
+    position: relative;
+    border-top: solid #000000;
+    border-radius: 10px;
+    border-bottom: #000000;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }

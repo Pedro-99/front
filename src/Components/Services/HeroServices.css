@@ -1,0 +1,40 @@
+#heroservices .b-example-divider {
+    height: 3rem;
+    background-color: rgba(0, 0, 0, .1);
+    border: solid rgba(0, 0, 0, .15);
+    border-width: 1px 0;
+    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+  }
+  
+  @media (min-width: 992px) {
+    #heroservices .rounded-lg-3 { border-radius: .3rem; }
+  }
+  
+  #heroservices .btn:hover{
+      /* background-color: rgb(230, 217, 152); */
+      background-color: #fff;
+      color: #6c757d;
+  }
+
+#bottomservices .bg-bottom{
+    /* background: url(../../../public/assests/bg2.png) fixed no-repeat; */
+    background-image: url(../../../public/assests/bg2.png) ;
+}
+
+#bottomservices .btn:hover{
+    color: #6c757d;
+    background: transparent;
+    border-color: #6c757d;
+}
+
+#bottomservices .btn2{
+    color: #6c757d;
+    background: transparent;
+    border-color: #6c757d;
+}
+
+#bottomservices .btn2:hover{
+    color: #fff;
+    background: #6c757d;
+    border-color: #6c757d;
+}

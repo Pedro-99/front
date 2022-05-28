@@ -1,6 +1,7 @@
 import React from "react";
-import Footer from "../Footer/Footer";
-import Navbar from "../Navbar/Navbar.jsx";
+import Footer from "../Components/Footer/Footer"
+import NavbarRes from "../Components/Navbar/NavbarRes";
+import Navbar from "../Components/Navbar/Navbar.jsx";
 const HomeLayout = (props) => {
     return (
         <>

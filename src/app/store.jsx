@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { ecomApi } from '../services/api';
 import authReducer from '../features/auth/authSlice';
+import productReducer from '../features/products/productSlice';
 
 export const store = configureStore({
   reducer : {
     [ecomApi.reducerPath] : ecomApi.reducer,
-    auth : authReducer
+    auth : authReducer,
+    products : productReducer,
   },
   middleware : ( getDefaultMiddlware ) => getDefaultMiddlware().concat(ecomApi.middleware)
 })

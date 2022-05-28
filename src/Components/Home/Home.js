@@ -4,6 +4,7 @@ import Contact from "../Contact/Contact";
 import Contact2 from "../Contact/Contact2";
 import HomeLayout from "../Layouts/HomeLayout";
 import LastestProducts from "../Products/LastestProducts";
+import PageDetails from "../Products/PageDetails";
 import ProCaros from "../Products/ProductsCarousel";
 import CustomersReviews from "../Reviews/CustomersReviews";
 import Services1 from "../Services/Services";
@@ -14,17 +15,18 @@ const Home = (props) => {
     return (
         <>
             <HomeLayout>
+                {/* <PageDetails /> */}
                 <SwiperC />
                 <div className="container mb-5">
                     <ProCaros />
                 </div>
                 <Services2 />
                 {/* <Profile /> */}
-                <Services1 />
+                {/* <Services1 /> */}
                 <div className="container">
                     <CustomersReviews />
                 </div>
-                <Contact2 />
+                {/* <Contact2 /> */}
                 <Bottom />
                 {/* <Contact /> */}
             </HomeLayout>

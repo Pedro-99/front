@@ -1,0 +1,78 @@
+#profile .user-heading {
+    background: #4c4c4c;
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    padding: 30px;
+    text-align: center;
+}
+
+#profile .user-heading.round a  {
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border: 10px solid rgba(255,255,255,0.3);
+    display: inline-block;
+}
+
+#profile .user-heading a img {
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+}
+
+#profile .user-heading h1 {
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 5px;
+}
+
+#profile .user-heading p {
+    font-size: 12px;
+}
+
+#profile .nav-link{
+    color: #fff;
+    background-color: #4c4c4c;
+    border: #4c4c4c;
+    box-shadow: #4c4c4c;
+    width: 100%;
+}
+
+#profile .nav-link:hover{
+    color: #4c4c4c;
+    background-color: transparent;
+    border: #4c4c4c;
+    box-shadow: #4c4c4c;
+}
+
+#profile .bio-graph-heading {
+    background: #4c4c4c;
+    color: #fff;
+    text-align: center;
+    font-style: italic;
+    padding: 40px 110px;
+    border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+#profile .btn-outline-dark{
+    color: #fff;
+    background-color: #4c4c4c;
+
+}
+
+#profile .btn-outline-dark:hover{
+    color: #4c4c4c;
+    background-color: transparent;
+
+}
+
+#profile .require{
+    color: red;
+}
+
+
+

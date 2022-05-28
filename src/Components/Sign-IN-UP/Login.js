@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify';
-import { login, reset } from '../../features/auth/authSlice.js';
+// import { login, reset } from '../../features/auth/authSlice.js';
 
 import "./Style.css";
 const Login = () => {
@@ -31,7 +31,7 @@ const Login = () => {
             toast.success('user logged in successufully');
         }
 
-        dispatch(reset())
+        // dispatch(reset())
     }, [user, isError, isSuccess, message, redirect, dispatch])
 
 
@@ -50,7 +50,7 @@ const Login = () => {
             password,
         }
 
-        dispatch(login(userData))
+        // dispatch(login(userData))
     }
 
 

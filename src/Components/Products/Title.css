@@ -1,0 +1,46 @@
+#title .section-head {
+    color: #fff;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+#title .section-head {
+    color: #fff;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+#title .section-head .section-title,
+.main-title {
+    font-size: 42px;
+    margin-top: 0;
+    font-weight: 600;
+    color: rgb(230, 217, 152);
+    position: relative;
+}
+
+#title .section-head .section-title span {
+    color: #2a3855;
+}
+
+#title .section-head .section-subtitle {
+    margin-top: 15px;
+    color: #333;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+#title .section-head .lines {
+    margin: auto;
+    width: 70px;
+    position: relative;
+    border-top: 2px solid #0e365a;
+    margin-top: 15px;
+}
+
+#title .section-head .line-left {
+    width: 70px;
+    position: relative;
+    border-top: 2px solid #0e365a;
+    margin-top: 15px;
+}

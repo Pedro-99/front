@@ -1,0 +1,17 @@
+#searchpage .brand-title{
+    /* color: rgba(230, 217, 152); */
+    color: #212529;
+}
+
+#searchpage .brand-title-text{
+    /* color: #212529; */
+    color: rgba(230, 217, 152);
+}
+
+#searchpage .lines {
+    margin: auto;
+    width: 80px;
+    position: relative;
+    border-top: 2px solid #7b7b7b;
+    margin-top: 15px;
+}
