@@ -10,7 +10,8 @@ import "swiper/css/thumbs";
 import "./PageDetails.css";
 import { FreeMode, Navigation, Thumbs } from "swiper";
 import PageDetailsLayout from "../../Layouts/PageDetailsLayout";
-import Stars from '../../Components/rating/stars'
+import Stars from '../../Components/rating/stars';
+import { toast } from 'react-toastify';
 
 
 const PageDetails = () => {
@@ -100,7 +101,10 @@ const PageDetails = () => {
                                 {
                                     (productQty !== 0) ?   <button onClick={() => {
                                         cartService.incrementProductQty(parseInt(pid),2,{ 'quantity' : productQty})
-                                    }} className="add-to-cart btn btn-default ms-2" type="button">add to cart</button> :
+                                        toast.success('product added into cart');
+                                    }
+                                    
+                                } className="add-to-cart btn btn-default ms-2" type="button">add to cart</button> :
                                     <button disabled = {true} onClick={() => {
                                         cartService.incrementProductQty(parseInt(pid),2,{ 'quantity' : productQty})
                                     }} className="add-to-cart btn btn-default ms-2" type="button">add to cart</button>

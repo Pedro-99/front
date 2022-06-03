@@ -1,6 +1,6 @@
 import { useState, useEffect,useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useCart } from 'react-use-cart';
+import { toast } from 'react-toastify';
 import HomeLayout from '../../Layouts/HomeLayout';
 import {incrementQty} from '../../features/Cart/cartSlice'
 import cartService from '../../features/Cart/cartService'
@@ -119,7 +119,8 @@ const Cart = () => {
                                                   
                                                     <button onClick={() => {
                                                         cartService.removeCartItem(item.product.id,2)  ;
-                                                        setOnDelete(!onDelete)
+                                                        setOnDelete(!onDelete);
+                                                        toast.error('product removed from cart');
                                                     }}  className='btn btn-outline-danger ms-5'>Remove Item</button>
                                                 </td>
                                             </tr>
@@ -133,12 +134,17 @@ const Cart = () => {
                         </table>
                     </div>
                     <div className="d-flex justify-content-between py-5">
-                        <button onClick={() => {cartService.clearCartItems(); setOnDelete(!onDelete); }}  className="btn btn-outline-danger">Clear All</button>
+                        <button onClick={() => {
+                            cartService.clearCartItems(); 
+                            setOnDelete(!onDelete); 
+                            toast.error('cart is cleared successfully');
+                            }}  className="btn btn-outline-danger">Clear All</button>
                         
                         <h3>Total Price: ${
                             data &&  data.reduce( (total,cartItem) => {
-                            
-                               return total = total + (cartItem.product.price * cartItem.quantity);
+
+                            let result = total + (cartItem.product.price * cartItem.quantity)
+                               return parseFloat(result)
                               
                             },0)
                         } </h3>
