@@ -94,7 +94,7 @@ const Navbar = () => {
                                         <Link className="btn " to='/' onClick={onLogout}>
                                             <i className="fa fa-sign-in me-1"></i> Logout
                                         </Link>
-                                        <Link to="/cart" class="btn  ms-2" type="submit"><i className="fa fa-shopping-cart me-1"></i> Cart</Link>
+                                        <Link to="/cart" className="btn  ms-2" type="submit"><i className="fa fa-shopping-cart me-1"></i> Cart</Link>
                                     </>
                                 ) : (
                                     <>

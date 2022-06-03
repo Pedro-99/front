@@ -18,11 +18,18 @@ const Register1 = () => {
     const dispatch = useDispatch();
 
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
+    const from = location.state?.from?.pathname || "/login";
 
     const { user, isLoading, isError, isSuccess, message } = useSelector(
         (state) => state.auth
     );
+
+    
+    useEffect(() => {
+
+        window.scrollTo(0,0);
+      
+      }, []);
 
     useEffect(() => {
         if (isError) {
@@ -31,7 +38,7 @@ const Register1 = () => {
 
         if (isSuccess) {
             redirect(from, { replace: true });
-            toast.success(message)
+            toast.success(user.message)
         }
 
         dispatch(reset())

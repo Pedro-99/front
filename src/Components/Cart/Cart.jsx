@@ -2,41 +2,32 @@ import { useState, useEffect,useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify';
 import HomeLayout from '../../Layouts/HomeLayout';
-import {incrementQty} from '../../features/Cart/cartSlice'
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+// import {incrementQty} from '../../features/Cart/cartSlice'
 import cartService from '../../features/Cart/cartService'
 import './Cart.css';
 
 const Cart = () => {
-    const { cart } = useSelector( (state) => state.cart)
+    const { cart } = useSelector( (state) => state.cart);
+    const { shopping_session } = useSelector((state) => state.shopping)
     
     const [cartItems, setCartItems] = useState(cart)
     const [data, setData] = useState(null)
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [onDelete, setOnDelete] = useState(false)
-    // const [productId, setProductId] = useState(null)
-    // const [quantity, setQuantity] = useState(0);
-// const handlePId = (pid) => {
-//     setProductId(pid);
-//     return pid
-// }
- 
-
-    // const increment = (sessionid,productid) => {
-    //      cartService.addToCart(sessionid,productid)
-    // }
-    // const decrement =  (sessionid,productid) => {
-    //      cartService.removeFromCart(sessionid,productid)
-    // }
-
 
    
-   
+    useEffect(() => {
+
+        window.scrollTo(0,0);
+      
+      }, []);
 
    useEffect( () => {
        
     
-    cartService.getCartItems(2)
+    cartService.getCartItems(shopping_session.id)
     .then( (items) => {
          setIsLoading(true);
          setData(items);
@@ -110,7 +101,10 @@ const Cart = () => {
                                            
                                             return(
                                                 <tr className='align-middle' key={index}>
-                                                <td><img src={item.product.image} className='img-cart' alt="{item.title}" /></td>
+                                                <td>
+                                                <LazyLoadImage effect="blur" className='img-cart' src={item.product.image} alt={item.product.name} />
+                                                    
+                                                    </td>
                                                 <td>{item.product.name}</td>
                                                 <td>${item.product.price}</td>
                                                 <td>Quantity: {item.quantity}</td>
@@ -118,7 +112,7 @@ const Cart = () => {
                                               
                                                   
                                                     <button onClick={() => {
-                                                        cartService.removeCartItem(item.product.id,2)  ;
+                                                        cartService.removeCartItem(item.product.id,shopping_session.id)  ;
                                                         setOnDelete(!onDelete);
                                                         toast.error('product removed from cart');
                                                     }}  className='btn btn-outline-danger ms-5'>Remove Item</button>
@@ -135,7 +129,7 @@ const Cart = () => {
                     </div>
                     <div className="d-flex justify-content-between py-5">
                         <button onClick={() => {
-                            cartService.clearCartItems(); 
+                            cartService.clearCartItems(shopping_session.id); 
                             setOnDelete(!onDelete); 
                             toast.error('cart is cleared successfully');
                             }}  className="btn btn-outline-danger">Clear All</button>

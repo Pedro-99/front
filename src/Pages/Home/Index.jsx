@@ -16,12 +16,14 @@ import {getSession} from "../../features/session/sessionSlice";
 const HomePage = (props) => {
 
     const { user } = useSelector((state) => state.auth)
+    const { shopping_session } = useSelector((state) => state.shopping)
+    
     const dispatch = useDispatch();
 
     useEffect( () => {
-        if(user){
-            dispatch(getCart(2))
+        if(user && shopping_session){
             dispatch(getSession(user.id))
+            dispatch(getCart(shopping_session.id))
         }
 
          

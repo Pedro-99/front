@@ -10,7 +10,7 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "./PageDetails.css";
 import { FreeMode, Navigation, Thumbs } from "swiper";
-import PageDetailsLayout from "../../Layouts/PageDetailsLayout";
+// import PageDetailsLayout from "../../Layouts/PageDetailsLayout";
 import HomeLayout from "../../Layouts/HomeLayout";
 import Stars from '../../Components/rating/stars';
 import { toast } from 'react-toastify';
@@ -19,7 +19,8 @@ import { toast } from 'react-toastify';
 const PageDetails = () => {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [productQty, setProductQty] = useState(0);
-    const {user} = useSelector((state) => state.auth)
+    const {user} = useSelector((state) => state.auth);
+    const { shopping_session } = useSelector((state) => state.shopping);
 
     const [product, setProduct] = useState([]);
     let { pid } = useParams();
@@ -107,7 +108,7 @@ const PageDetails = () => {
                                  (productQty !== 0) ? ((user !== null) ? 
                                (  <button
                                  onClick={() => {
-                                    cartService.incrementProductQty(parseInt(pid),2,{ 'quantity' : productQty})
+                                    cartService.incrementProductQty(parseInt(pid),shopping_session.id,{ 'quantity' : productQty})
                                     toast.success('product added into cart');
                                     }  } 
                                    className="add-to-cart btn btn-default ms-2"

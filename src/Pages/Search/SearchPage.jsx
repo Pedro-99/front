@@ -12,6 +12,12 @@ const SearchPage = () => {
 
     useEffect(() => {
 
+        window.scrollTo(0,0);
+      
+      }, []);
+      
+    useEffect(() => {
+
 
         productService.getProducts().then((data) => {
             setProducts(data)
@@ -61,12 +67,12 @@ const SearchPage = () => {
                             <div className="">
                                 <button className="btn btn-outline-secondary " href="#">All Products</button>
                             </div>
-                            <div className="">
+                            {/* <div className="">
                                 <button className="btn btn-outline-secondary ms-3" href="#">New Products</button>
                             </div>
                             <div className="">
                                 <button className="btn btn-outline-secondary ms-3" href="#">Most Popular</button>
-                            </div>
+                            </div> */}
                         </div>
                         <hr className="lines" />
                     </div>

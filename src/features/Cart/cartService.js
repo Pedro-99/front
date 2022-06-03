@@ -6,7 +6,7 @@ const baseUrl = 'http://localhost:5000';
 
 const getCartItems = async (sessionId) => {
 
-  const response  = await axios.get(baseUrl + `/cart/${sessionId}`);
+  const response  = await axios.get(baseUrl + `/cart/session/${sessionId}`);
 
   if(response.data) {
 
@@ -39,9 +39,9 @@ const removeCartItem = async (productId,sessionId) => {
   const response = await axios.delete(baseUrl + `/cart/delete/product/${productId}/session/${sessionId}`);
   return response.data
 }
-const clearCartItems = async () => {
+const clearCartItems = async (sessionId) => {
   
-  const response = await axios.delete(baseUrl + `/cart/delete/all`);
+  const response = await axios.delete(baseUrl + `/cart/session/${sessionId}/delete/all`);
   return response.data
 }
 

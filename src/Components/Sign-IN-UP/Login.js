@@ -25,6 +25,12 @@ const Login = () => {
         (state) => state.auth
     );
 
+    
+    useEffect(() => {
+
+        window.scrollTo(0,0);
+      
+      }, []);
     useEffect(() => {
         if (isError) {
             console.log('error ',isError)
