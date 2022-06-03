@@ -87,10 +87,10 @@ const Cart = () => {
             <div className="row justify-content-center">
                 {/* <h4 className="text-center py-3 text-decoration-underline">My Cart</h4> */}
                 <div className="col-sm-12 col-md-12 col-lg-8 col-xl-8 col-xxl-8 py-4">
-                    <div className="d-flex justify-content-center py-3">
+                    {/* <div className="d-flex justify-content-center py-3">
                         <p className='position-relative fw-bolder text-title'>Cart <span className="postition-absolute translate-middle rounded-pill badge bg-danger mx-1"></span></p>
                         <p className='fw-bolder text-title'>Total Items <span className="postition-absolute translate-middle rounded-pill badge bg-success mx-1"></span></p>
-                    </div>
+                    </div> */}
                     <div>
                         <table className="table table-light table-hover m-0">
                             <tbody>

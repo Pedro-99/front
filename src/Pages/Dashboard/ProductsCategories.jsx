@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DashboardLayout from "../../Layouts/DashboardLayout";
+import categoryService from '../../features/categories/categoryService';
 
 const FormAdd = () => {
     return (
@@ -19,8 +20,19 @@ const FormAdd = () => {
     );
 }
 const ProductsCategories = () => {
+    const [categories, setCategories] = useState(null);
     const [showResults, setShowResults] = useState(false)
+
     const onClick = () => setShowResults(true)
+
+    useEffect( () => {
+ 
+        categoryService.getCategories().then( (data) => {
+            setCategories(data)
+        })
+
+    }, [])
+    
     return (
         <>
             <DashboardLayout>
@@ -44,35 +56,30 @@ const ProductsCategories = () => {
                                         <table id="example" className="table table-striped data-table">
                                             <thead>
                                                 <tr>
+                                                    <th>Id</th>
                                                     <th>Category</th>
                                                     <th>Created At</th>
+                                                    <th>Updated At</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Tiger Nixon</td>
-                                                    <td>2011/04/25</td>
-                                                    <th><a className="text-dark" href="/Dashboard/Products/id">Update</a></th>
-                                                    <th><a className="text-dark" href="/Dashboard/Products/id">Delete</a></th>
-                                                </tr>
-                                                <tr>
-                                                    <td>Garrett Winters</td>
-                                                    <td>2011/07/25</td>
-                                                    <th><a className="text-dark" href="/Dashboard/Products/id">Update</a></th>
-                                                    <th><a className="text-dark" href="/Dashboard/Products/id">Delete</a></th>
-                                                </tr>
-                                                <tr>
-                                                    <td>San Francisco</td>
-                                                    <td>2009/01/12</td>
-                                                    <th><a className="text-dark" href="/Dashboard/Products/id">Update</a></th>
-                                                    <th><a className="text-dark" href="/Dashboard/Products/id">Delete</a></th>
-                                                </tr>
-                                                <tr>
-                                                    <td>Cedric Kelly</td>
-                                                    <td>2012/03/29</td>
-                                                    <th><a className="text-dark" href="/Dashboard/Products/id">Update</a></th>
-                                                    <th><a className="text-dark" href="/Dashboard/Products/id">Delete</a></th>
-                                                </tr>
+                                                {
+                                                    categories && categories.map( (category, index) => {
+                                                        return(
+                                                            <tr key={index}>
+                                                            <td>{category.id}</td>
+                                                            <td>{category.name}</td>
+                                                            <td>{category.createdAt}</td>
+                                                            <td>{category.updatedAt}</td>
+                                                           
+                                                            <th><a className="text-dark" href="/Dashboard/Products/id">Update</a></th>
+                                                            <th><a className="text-dark" href="/Dashboard/Products/id">Delete</a></th>
+                                                        </tr>
+                                                        )
+                                                    })
+                                                }
+                                               
+                                              
                                             </tbody>
                                         </table>
                                     </div>

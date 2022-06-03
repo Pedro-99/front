@@ -22,7 +22,7 @@ import Spinner from './Components/spinner/index';
 const LazyLogin = lazy(() => import('./Components/Sign-IN-UP/Login'));
 const LazyRegister = lazy(() => import('./Components/Sign-IN-UP/Register'));
 const LazyHomePage = lazy(() => import('./Pages/Home/Index'));
-const LazyDashboardPage = lazy(() => import('./Pages/Dashboard'));
+const LazyDashboardPage = lazy(() => import('./Pages/Dashboard/index'));
 const LazyPageDetails = lazy(() => import('./Pages/Products/PageDetails'));
 const LazyContactPage = lazy(() => import('./Pages/Contact/ContactPage'));
 const LazySearchPage = lazy(() => import('./Pages/Search/SearchPage'));
@@ -31,8 +31,8 @@ const LazyCart = lazy(() => import('./Components/Cart/Cart'));
 const LazyAddProduct = lazy(() => import('./Pages/Dashboard/AddProduct'));
 const LazyProducts = lazy(() => import('./Pages/Dashboard/Products'));
 const LazyProductsOutOfStock = lazy(() => import('./Pages/Dashboard/Stock'));
-const LazyProductsCategories = lazy(() => import('./Pages/Dashboard/Users'));
-const LazyListUsers = lazy(() => import('./Pages/Dashboard/ProductsCategories'));
+const LazyProductsCategories = lazy(() => import('./Pages/Dashboard/ProductsCategories'));
+const LazyListUsers = lazy(() => import('./Pages/Dashboard/Users'));
 const LazyProductsOption = lazy(() => import('./Pages/Dashboard/ProductsOptions'));
 
 function App() {
@@ -62,9 +62,9 @@ function App() {
         <Route path='/dashboard/add/product' element={<LazyAddProduct />} />
         <Route path='/dashboard/products' element={<LazyProducts />} />
         <Route path='/dashboard/products/stock' element={<LazyProductsOutOfStock />} />
-        <Route path='/dashboard/Users' element={<LazyListUsers />} />
-        <Route path='/dashboard/products/Categories' element={<LazyProductsCategories />} />
-        <Route path='/dashboard/products/Options' element={<LazyProductsOption />} />
+        <Route path='/dashboard/users' element={<LazyListUsers />} />
+        <Route path='/dashboard/products/categories' element={<LazyProductsCategories />} />
+        <Route path='/dashboard/products/options' element={<LazyProductsOption />} />
       </Routes>
         </Suspense>
       <ToastContainer />
