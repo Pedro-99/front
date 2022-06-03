@@ -73,7 +73,7 @@ const Navbar = () => {
                                    
                                 </ul>
                             </li>
-                            <li className="nav-item dropdown">
+                            {/* <li className="nav-item dropdown">
                                 <a className="nav-link link-dark active dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     New
                                 </a>
@@ -83,25 +83,30 @@ const Navbar = () => {
                                     <li><a className="dropdown-item" href="#">Categorie 3</a></li>
                                     <li><a className="dropdown-item" href="#">Categorie 4</a></li>
                                 </ul>
-                            </li>
+                            </li> */}
                         </ul>
                         <form className="d-flex align-items-center text-center justify-content-center">
+                        
                         {
+                             
                                 (auth.user != null) ? (
                                     <>
-                                        <Link className="btn btn-outline-light" to='/' onClick={onLogout}>
+                                        <Link className="btn " to='/' onClick={onLogout}>
                                             <i className="fa fa-sign-in me-1"></i> Logout
                                         </Link>
-                                        <Link to="/cart" class="btn btn-outline-light ms-2" type="submit"><i className="fa fa-shopping-cart me-1"></i> Cart(0)</Link>
+                                        <Link to="/cart" class="btn  ms-2" type="submit"><i className="fa fa-shopping-cart me-1"></i> Cart</Link>
                                     </>
                                 ) : (
                                     <>
-                                        <Link to="/login" class="btn btn-outline-light " type="submit"><i className="fa fa-sign-in me-1"></i> Login</Link>
-                                        <Link to="/register" class="btn btn-outline-light ms-2" type="submit"><i className="fa fa-user-plus me-1"></i>Register</Link>
+                                        <Link to="/login" className="btn  " type="submit"><i className="fa fa-sign-in me-1"></i> Login</Link>
+                                        <Link to="/register" className="btn  ms-2" type="submit"><i className="fa fa-user-plus me-1"></i>Register</Link>
                                     </>
 
                                 )
                             }
+                            <Link className="btn " to="/products" ><i className="fa fa-search me-1">
+                             </i>
+                              </Link>
                         </form>
                     </div>
                 </div>

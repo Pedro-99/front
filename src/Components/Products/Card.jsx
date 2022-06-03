@@ -21,7 +21,7 @@ const Card = (props) => {
                         <ul className="product-links">
                             <li><a href="#"><i className="fa fa-heart"></i></a></li>
                         </ul>
-                        <button href="" className="add-to-cart" onClick={() => addItem(props.item)}>Add to Cart</button>
+                  
                     </div>
                     <div className="product-content">
                         <h3 className="title"><a href="#">{props.name}</a></h3>

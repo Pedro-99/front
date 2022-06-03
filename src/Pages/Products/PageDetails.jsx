@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import {useSelector} from 'react-redux';
 import productService from '../../features/products/productService';
 import cartService from '../../features/Cart/cartService';
 import { useParams } from 'react-router-dom';
@@ -10,6 +11,7 @@ import "swiper/css/thumbs";
 import "./PageDetails.css";
 import { FreeMode, Navigation, Thumbs } from "swiper";
 import PageDetailsLayout from "../../Layouts/PageDetailsLayout";
+import HomeLayout from "../../Layouts/HomeLayout";
 import Stars from '../../Components/rating/stars';
 import { toast } from 'react-toastify';
 
@@ -17,6 +19,7 @@ import { toast } from 'react-toastify';
 const PageDetails = () => {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [productQty, setProductQty] = useState(0);
+    const {user} = useSelector((state) => state.auth)
 
     const [product, setProduct] = useState([]);
     let { pid } = useParams();
@@ -39,8 +42,8 @@ const PageDetails = () => {
 
     return (
 <>
-  {/* <HomeLayout> */}
-  <PageDetailsLayout >
+  <HomeLayout>
+  {/* <PageDetailsLayout > */}
         <section className="mt-5 py-4">
                   
         <div id="details" className="container mt-5 mb-5">
@@ -77,40 +80,67 @@ const PageDetails = () => {
                               (product && product.id) ?  <Stars id={product.id} /> : <></>
                            }
                             </div>
-                            <>
+                            <div>
                             {
                                 (productQty === 0) ? <>
                                     <button onClick = {increment}>+</button>
-                            <span>{productQty}</span>
+                            <span className='mx-3'>{productQty}</span>
                             <button disabled={true} onClick = {decrement }>-</button>
                                 </> : 
                                 <>    <button onClick = {increment}>+</button>
-                                <span >{productQty}</span>
+                                <span className='mx-3' >{productQty}</span>
                                 <button onClick = {decrement }>-</button></>
                             }
                         
-                            </>
+                            </div>
                             {
                                 product ?   <p className="product-description"> {product.description}</p> : <>Loading...</>
                             }
                            {
-                               product ?  <h4 className="price">current price: <span>${product.price}</span></h4> : <>Loading</>
+                               product ?  <h4 className="price">current price: <span>${parseFloat(product.price * productQty).toFixed(2)}</span></h4> : <>Loading</>
                            }
                      
                             <div className="action d-flex w-20 h-20">
-                                {
-                                    (productQty !== 0) ?   <button onClick={() => {
-                                        cartService.incrementProductQty(parseInt(pid),2,{ 'quantity' : productQty})
-                                        toast.success('product added into cart');
-                                    }
+
+                       
+                             {
+                                 (productQty !== 0) ? ((user !== null) ? 
+                               (  <button
+                                 onClick={() => {
+                                    cartService.incrementProductQty(parseInt(pid),2,{ 'quantity' : productQty})
+                                    toast.success('product added into cart');
+                                    }  } 
+                                   className="add-to-cart btn btn-default ms-2"
+                                   type="button"
+                             >
+                                 add to cart
+                                 </button> ) :
+
+                                   ( <button 
+                                    onClick= {() => {
+                                               if(!user) toast.warning('you are not logged in');
+                                           }}
+                                 
+                                    //  disabled={true}
+                                     className="add-to-cart btn btn-default ms-2" 
+                                     type="button">
+                                         add to cart
+                                     </button>)):
+                                   (  <button 
                                     
-                                } className="add-to-cart btn btn-default ms-2" type="button">add to cart</button> :
-                                    <button disabled = {true} onClick={() => {
-                                        cartService.incrementProductQty(parseInt(pid),2,{ 'quantity' : productQty})
-                                    }} className="add-to-cart btn btn-default ms-2" type="button">add to cart</button>
-                                }
+                                    disabled={true}
+                                     className="add-to-cart btn btn-default ms-2" 
+                                     type="button">
+                                         add to cart
+                                     </button>)
+                                 
+                                 
+                             }
+
+
+                              
                                
-                                <button className="like btn btn-default ms-3" type="button"><span className="fa fa-heart"></span></button>
+                             
                             </div>
                         </div>
                     </div>
@@ -120,8 +150,8 @@ const PageDetails = () => {
       
                
         </section>
-        </PageDetailsLayout>
-         {/* </HomeLayout> */}
+        {/* </PageDetailsLayout> */}
+         </HomeLayout>
         </>
     );
 }

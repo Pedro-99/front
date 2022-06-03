@@ -19,8 +19,11 @@ const HomePage = (props) => {
     const dispatch = useDispatch();
 
     useEffect( () => {
-        dispatch(getCart(2))
-        dispatch(getSession(user.id))
+        if(user){
+            dispatch(getCart(2))
+            dispatch(getSession(user.id))
+        }
+
          
       
     }, [dispatch])

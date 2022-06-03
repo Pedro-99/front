@@ -144,7 +144,7 @@ const Cart = () => {
                             data &&  data.reduce( (total,cartItem) => {
 
                             let result = total + (cartItem.product.price * cartItem.quantity)
-                               return parseFloat(result)
+                               return (parseFloat(result).toFixed(2) - 0)
                               
                             },0)
                         } </h3>
