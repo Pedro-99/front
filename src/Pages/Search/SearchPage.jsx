@@ -1,8 +1,30 @@
-import React from "react";
-import ProductsCard from "../../Components/Products/Card";
+import React, { useState, useEffect } from "react";
+import Card from "../../Components/Products/Card";
 import HomeLayout from "../../Layouts/HomeLayout";
+import productService from "../../features/products/productService";
+import ratingService from '../../features/rating/ratingService';
 import "./Style.css"
 const SearchPage = () => {
+
+    const [products, setProducts] = useState([]);
+    const [search, setSearch] = useState("");
+
+
+    useEffect(() => {
+
+
+        productService.getProducts().then((data) => {
+            setProducts(data)
+        })
+            .catch((err) => console.log("error : fetching data failed", err))
+
+    }, [])
+
+
+
+
+
+
     return (
         <>
             <HomeLayout>
@@ -14,8 +36,17 @@ const SearchPage = () => {
                                     <h6 className="fst-italic brand-title-text"> COSMITICS</h6>
                                 </h4>
                             </div>
+
                             <div className="col-6 text-center d-flex">
-                                <input className="form-control form-control-dark w-100 ms-2" type="text" placeholder="Search" aria-label="Search" />
+                                <input
+                                    className="form-control form-control-dark w-100 ms-2"
+                                    placeholder="Search your product"
+                                    aria-label="search"
+                                    type="search"
+                                    name="search"
+                                    id="search-form"
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)} />
                                 <button className="link bg-trasparent ms-2" href="#" aria-label="Search">
                                     <i className="fa fa-search"></i>
                                 </button>
@@ -43,24 +74,45 @@ const SearchPage = () => {
 
                 <div className="container mb-5">
                     <div className="row">
-                        <div className="col-md-3 col-sm-6">
-                            <ProductsCard />
-                        </div>
-                        <div className="col-md-3 col-sm-6">
-                            <ProductsCard />
-                        </div>
-                        <div className="col-md-3 col-sm-6">
-                            <ProductsCard />
-                        </div>
-                        <div className="col-md-3 col-sm-6">
-                            <ProductsCard />
-                        </div>
-                        <div className="col-md-3 col-sm-6">
-                            <ProductsCard />
-                        </div>
-                        <div className="col-md-3 col-sm-6">
-                            <ProductsCard />
-                        </div>
+
+                        {
+                            (products.length !== 0) ? (
+                                products && products.filter((val) => {
+                                    if (search === "") {
+                                        return val
+                                    } else if (val.name.toLowerCase().includes(search.toLowerCase())) {
+                                        return val
+                                    }
+                                }).map((product, index) => {
+    
+                                    return (
+                                      
+                                        <div className="col-md-3 col-sm-6">
+                                            <Card
+                                                key={index}
+                                                id={product.id}
+                                                name={product.name}
+                                                description={product.description}
+                                                price={product.price}
+                                                image={product.image}
+    
+                                            />
+                                        </div>
+                                       
+                                    )
+    
+    
+    
+    
+    
+                                })
+                            ) : (
+                                (<></>)
+                            )
+
+                        }
+
+
                     </div>
 
                 </div>

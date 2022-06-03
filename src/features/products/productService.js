@@ -25,15 +25,27 @@ const getProducts = async () => {
 
   return response.data
 }
+// Get latest products
+const getLatestProducts = async () => {
+  // const config = {
+  //   headers: authHeader() 
+  // }
 
-// get product by id
-const getProductOptions = async (productId) => {
-
-
-  const response = await axios.get(baseUrl + `/products/${productId}`)
+  const response = await axios.get(baseUrl + '/products/new')
 
   return response.data
 }
+const getProductById = async (pid) => {
+  // const config = {
+  //   headers: authHeader() 
+  // }
+
+  const response = await axios.get(baseUrl + `/products/${pid}`)
+
+  return response.data
+}
+
+
 const deleteProduct = async (productId, authHeader) => {
   const config = {
     headers: authHeader() 
@@ -48,7 +60,8 @@ const productService = {
   createProduct,
   getProducts,
   deleteProduct,
-  getProductOptions,
+  getLatestProducts,
+  getProductById,
 }
 
 export default productService

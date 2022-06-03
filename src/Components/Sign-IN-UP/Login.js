@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify';
-// import { login, reset } from '../../features/auth/authSlice.js';
-
+import { login, reset } from '../../features/auth/authSlice.js';
+import useAuth from '../../hooks/useAuth';
 import "./Style.css";
 const Login = () => {
 
@@ -14,8 +14,12 @@ const Login = () => {
 
     const { username, password } = formData
 
+    const { setAuth } = useAuth();
     const redirect = useNavigate();
     const dispatch = useDispatch();
+
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     const { user, isLoading, isError, isSuccess, message } = useSelector(
         (state) => state.auth
@@ -23,16 +27,24 @@ const Login = () => {
 
     useEffect(() => {
         if (isError) {
+            console.log('error ',isError)
             toast.error(message)
         }
 
         if (isSuccess) {
-            redirect('/')
+            setAuth({ user });
+            // redirect('/')
+            redirect(from, { replace: true });
             toast.success('user logged in successufully');
         }
 
-        // dispatch(reset())
+        dispatch(reset())
     }, [user, isError, isSuccess, message, redirect, dispatch])
+
+
+
+
+
 
 
     const onChange = (e) => {
@@ -50,7 +62,7 @@ const Login = () => {
             password,
         }
 
-        // dispatch(login(userData))
+        dispatch(login(userData))
     }
 
 
@@ -79,7 +91,9 @@ const Login = () => {
                         <div className="col-lg-6">
                             <div className="card1 pb-5">
                                 <div className="row">
+                                    <a href="\">
                                     <img src="./assests/logo.png" className="icone-logo" />
+                                    </a>
                                 </div>
                                 <div className="row px-3 justify-content-center mt-4 mb-5 border-line">
                                     <img className="image-style" src="./assests/m5.png" />
@@ -124,6 +138,17 @@ const Login = () => {
                                         <a className="text-danger " href="/register">Register</a></small>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-dark text-white py-4">
+                    <div class="row px-3">
+                        <small class="ml-4 ml-sm-5 mb-2">Copyright &copy; 2019. All rights reserved.</small>
+                        <div class="social-contact ml-4 ml-sm-auto">
+                            <span class="fa fa-facebook mr-4 text-sm "></span>
+                            <span class="fa fa-google-plus mr-4 text-sm ms-1 "></span>
+                            <span class="fa fa-linkedin mr-4 text-sm ms-1"></span>
+                            <span class="fa fa-twitter mr-4 mr-sm-5 text-sm ms-1"></span>
                         </div>
                     </div>
                 </div>

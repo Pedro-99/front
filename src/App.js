@@ -28,11 +28,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register1 />} />
         <Route path="/" element={<HomePage />} />
-        <Route path='/Products' element={<PageDetails />} />
-        <Route path='/Contact-us' element={<ContactPage />} />
-        <Route path='/Search' element={<SearchPage />} />
+        <Route path='/products/:pid' element={<PageDetails />} />
+        <Route path='/contact-us' element={<ContactPage />} />
+        <Route path='/products' element={<SearchPage />} />
         <Route path='/profile' element={<Profile />} />
-        <Route path='/Cart' element={<Cart />} />
+        <Route path='/cart' element={<Cart />} />
         {/* <Route path="/profile" element={
           <ProtectedRoute  isAuth={ (user.isLoggedIn) ? true : false } >
             <Profile />

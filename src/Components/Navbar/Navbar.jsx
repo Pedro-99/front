@@ -1,23 +1,35 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout, reset } from '../../features/auth/authSlice';
+import categoryService from '../../features/categories/categoryService';
 import { toast } from 'react-toastify';
 import "./Navbar.css";
 
 const Navbar = () => {
     // const [isMobile, SetIsMobile] = useState(false);
-    // const navigate = useNavigate()
-    // const dispatch = useDispatch()
-    // const auth = useSelector((state) => state.auth)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const auth = useSelector((state) => state.auth)
+    const [categories, setCategories] = useState(null)
+    const { cart } = useSelector( (state) => state.cart)
 
+    useEffect( () => {
+ 
+        categoryService.getCategories().then( (data) => {
+            setCategories(data)
+        })
+
+    }, [])
+
+ 
     const [colorChange, setColorchange] = useState(false);
-    // const onLogout = () => {
-    //     dispatch(logout())
-    //     dispatch(reset())
-    //     navigate('/')
-    //     toast.warn('user logged out');
-    //   }
+    const onLogout = () => {
+        dispatch(logout())
+        dispatch(reset())
+        navigate('/')
+        toast.warn('user logged out');
+    }
     const changeNavbarColor = () => {
         if (window.scrollY >= 80) {
             setColorchange(true);
@@ -48,10 +60,17 @@ const Navbar = () => {
                                     Categories
                                 </a>
                                 <ul className="dropdown-menu " aria-labelledby="navbarScrollingDropdown">
-                                    <li><a className="dropdown-item" href="#">Categorie 1</a></li>
-                                    <li><a className="dropdown-item" href="#">Categorie 2</a></li>
-                                    <li><a className="dropdown-item" href="#">Categorie 3</a></li>
-                                    <li><a className="dropdown-item" href="#">Categorie 4</a></li>
+                                    {
+                                        categories ? categories.map( (category, index) => {
+                                            return(
+                                                <li key={index}>
+                                                    <a className="dropdown-item" href="#">{category.name}</a>
+                                                    </li>
+                                            )
+                                        }) : <>Loading...</>
+                                    }
+                                  
+                                   
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">
@@ -67,14 +86,22 @@ const Navbar = () => {
                             </li>
                         </ul>
                         <form className="d-flex align-items-center text-center justify-content-center">
-                            <a className="btn " href="/Search" ><i className="fa fa-search me-1">
-                            </i> </a>
-                            <a className="btn " href="/login" ><i className="fa fa-sign-in me-1">
-                            </i> Login</a>
-                            <a className="btn " href="/register">
-                                <i className="fa fa-user-plus me-1"></i>Register</a>
-                            <a className="btn" href="/Cart">
-                                <i className="fa fa-shopping-cart me-1"></i>(0)</a>
+                        {
+                                (auth.user != null) ? (
+                                    <>
+                                        <Link className="btn btn-outline-light" to='/' onClick={onLogout}>
+                                            <i className="fa fa-sign-in me-1"></i> Logout
+                                        </Link>
+                                        <Link to="/cart" class="btn btn-outline-light ms-2" type="submit"><i className="fa fa-shopping-cart me-1"></i> Cart(0)</Link>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Link to="/login" class="btn btn-outline-light " type="submit"><i className="fa fa-sign-in me-1"></i> Login</Link>
+                                        <Link to="/register" class="btn btn-outline-light ms-2" type="submit"><i className="fa fa-user-plus me-1"></i>Register</Link>
+                                    </>
+
+                                )
+                            }
                         </form>
                     </div>
                 </div>
