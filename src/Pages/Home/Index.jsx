@@ -21,8 +21,16 @@ const HomePage = (props) => {
     const dispatch = useDispatch();
 
     useEffect( () => {
-        if(user && shopping_session){
+        if(user){
             dispatch(getSession(user.id))
+          
+        }
+
+         
+      
+    }, [dispatch])
+    useEffect( () => {
+        if(shopping_session !== null){
             dispatch(getCart(shopping_session.id))
         }
 
@@ -30,7 +38,11 @@ const HomePage = (props) => {
       
     }, [dispatch])
 
+    useEffect(() => {
 
+        window.scrollTo(0,0);
+      
+      }, []);
     // console.log('shopping_session',shopping_session)
     return (
         <>
