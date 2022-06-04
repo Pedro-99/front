@@ -17,7 +17,7 @@ const Login = () => {
     const { setAuth } = useAuth();
     const redirect = useNavigate();
     const dispatch = useDispatch();
-
+    const Admin_Role = "ROLE_ADMIN"
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
 
@@ -40,7 +40,12 @@ const Login = () => {
         if (isSuccess) {
             setAuth({ user });
             // redirect('/')
-            redirect(from, { replace: true });
+            if(user.roles.includes(Admin_Role)){
+                redirect('/dashboard', { replace: true });
+            }else{
+
+                redirect(from, { replace: true });
+            }
             toast.success('user logged in successufully');
         }
 

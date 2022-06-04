@@ -1,38 +1,79 @@
 import React, { useState, useEffect } from "react";
 import DashboardLayout from "../../Layouts/DashboardLayout";
 import categoryService from '../../features/categories/categoryService';
+import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 
 const FormAdd = () => {
+
+
+    // useEffect(() => {
+
+        // categoryService.addCategory().then( (data) => {
+        //     setCategories(data)
+        // })
+
+    // }, [])
+
     return (
-        <>
-            <form>
-                <div class="col-md-4 d-flex">
-                    <label for="firstName " className="form-label fw-bolder">Categoy Name
-                        <span className="require">&nbsp;*</span></label>
-                    <input type="text" className="form-control ms-2" id="firstName" placeholder="" required />
-                    <button type="button" className="btn btn-outline-secondary ms-2">Save</button>
-                    <div className="invalid-feedback">
-                        Valid first name is required.
-                    </div>
-                </div>
-            </form>
-        </>
+      <></>
     );
 }
 const ProductsCategories = () => {
     const [categories, setCategories] = useState(null);
-    const [showResults, setShowResults] = useState(false)
+    const [showResults, setShowResults] = useState(false);
+    const [onSubmit, setOnSubmit] = useState(false);
+    const [onDelete, setOnDelete] = useState(false);
+    const [category, setCategory] = useState(null);
+    const [name, setName] = useState("");
 
-    const onClick = () => setShowResults(true)
 
-    useEffect( () => {
- 
-        categoryService.getCategories().then( (data) => {
-            setCategories(data)
+   const handleSubmit = (e) => {
+        e.preventDefault();
+
+        let category = {}
+        category.name = name
+
+        categoryService.addCategory(category)
+          .then((category)=>{
+            setOnSubmit(!onSubmit) 
+           if(category) toast.success('category created successufully');
         })
+        .catch((err)=> {
+            toast.warning(err);
+        })
+        //  
 
-    }, [])
+    }
+
+    const onClick = () => setShowResults(!showResults)
+    // const onRerender = () => setOnSubmit(!onSubmit)
+
+    useEffect(() => {
+
+        categoryService.getCategories()
+                       .then((data) => {
+                           setCategories(data)
+                       })
+
+    }, [onSubmit,onDelete])
+
+    // const handleMenuClick = (record, e) => {
+
+    //     const { onDeleteItem, onEditItem } = props
     
+    //     if (e.key === '1') {
+    //       onEditItem(record)
+    //     } else if (e.key === '2') {
+    //       confirm({
+    //         title: `Are you sure delete this record?`,
+    //         onOk() {
+    //           onDeleteItem(record.id)
+    //         },
+    //       })
+    //     }
+    //   }
+
     return (
         <>
             <DashboardLayout>
@@ -48,7 +89,35 @@ const ProductsCategories = () => {
                                         <button className="btn btn-outline-secondary" onClick={onClick}>Add Category</button>
                                     </div>
                                     <div className="row mt-3">
-                                    { showResults ? <FormAdd /> : null }
+                                        {showResults ?   
+            <form>
+                <div class="col-md-4 d-flex">
+                    <label for="firstName " className="form-label fw-bolder">Categoy Name
+                        <span className="require">&nbsp;*</span></label>
+                    <input
+                        type="text"
+                        className="form-control ms-2"
+                        id="firstName"
+                        name="name"
+                        placeholder="Enter category name"
+                        value={name}
+                        onChange={(e) => { setName(e.target.value) }}
+                        required
+                    />
+                    <button 
+                    type="button"
+                     className="btn btn-outline-secondary ms-2"
+                     onClick={(e) => {
+                        handleSubmit(e);
+                        // onRerender()
+                     } }
+                      >Submit</button>
+                    <div className="invalid-feedback">
+                        Valid first name is required.
+                    </div>
+                </div>
+            </form>
+         : <></>}
                                     </div>
                                 </div>
                                 <div className="card-body">
@@ -64,22 +133,42 @@ const ProductsCategories = () => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    categories && categories.map( (category, index) => {
-                                                        return(
+                                                    categories && categories.map((category, index) => {
+                                                        return (
                                                             <tr key={index}>
-                                                            <td>{category.id}</td>
-                                                            <td>{category.name}</td>
-                                                            <td>{category.createdAt}</td>
-                                                            <td>{category.updatedAt}</td>
-                                                           
-                                                            <th><a className="text-dark" href="/Dashboard/Products/id">Update</a></th>
-                                                            <th><a className="text-dark" href="/Dashboard/Products/id">Delete</a></th>
-                                                        </tr>
+                                                                <td>{category.id}</td>
+                                                                <td>{category.name}</td>
+                                                                <td>{category.createdAt}</td>
+                                                                <td>{category.updatedAt}</td>
+
+                                                                <th><a className="text-dark" href="/Dashboard/Products/id">Update</a></th>
+                                                                <th>
+                                                                    <Link 
+                                                                    className="text-dark"
+                                                                    to="/dashboard/products/categories"
+                                                                    onClick={() => {
+                                                                        if(window.confirm('Are you sure you want to delete this item')){
+                                                                            categoryService.deleteCategory(category.id)
+                                                                            toast.error('category deleted successufully')
+                                                                            setOnDelete(!onDelete)
+                                                                        }
+                                                                       
+                                                                        // confirm(
+                                                                        //     { title :`Are you sure delete this record?`,
+                                                                        //      onOk : () => {categoryService.deleteCategory(category.id)}}
+                                                                        //   )
+                                                                       
+                                                                    }}
+                                                                    >
+                                                                        Delete
+                                                                    </Link>
+                                                                </th>
+                                                            </tr>
                                                         )
                                                     })
                                                 }
-                                               
-                                              
+
+
                                             </tbody>
                                         </table>
                                     </div>
