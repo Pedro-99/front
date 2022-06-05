@@ -32,12 +32,22 @@ const deleteCategory = async (categoryId) => {
 
   return response.data
 }
+// get categoty by name
+const getCategoryByName = async (categoryName) => {
+
+
+
+  const response = await axios.get(baseUrl + `/categories/name/${categoryName}`)
+
+  return response.data
+}
 
 
 
 const categoryService = {
   getCategories,
   deleteCategory,
+  getCategoryByName,
   addCategory
 }
 

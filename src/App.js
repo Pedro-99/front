@@ -28,7 +28,9 @@ const LazyContactPage = lazy(() => import('./Pages/Contact/ContactPage'));
 const LazySearchPage = lazy(() => import('./Pages/Search/SearchPage'));
 const LazyProfile = lazy(() => import('./Pages/UsersProfile/Index.jsx'));
 const LazyCart = lazy(() => import('./Components/Cart/Cart'));
+const LazyProductsByCtaegory = lazy(() => import('./Pages/Categories/ProductsByCategories'));
 const LazyAddProduct = lazy(() => import('./Pages/Dashboard/AddProduct'));
+const LazyUpdateProduct = lazy(() => import('./Pages/Dashboard/UpdateProduct'));
 const LazyProducts = lazy(() => import('./Pages/Dashboard/Products'));
 const LazyProductsOutOfStock = lazy(() => import('./Pages/Dashboard/Stock'));
 const LazyProductsCategories = lazy(() => import('./Pages/Dashboard/ProductsCategories'));
@@ -51,6 +53,7 @@ function App() {
         <Route path='/products' element={<LazySearchPage />} />
         <Route path='/profile' element={<LazyProfile />} />
         <Route path='/cart' element={<LazyCart />} />
+        <Route path='/products/category/:name' element={<LazyProductsByCtaegory />} />
         {/* <Route path="/profile" element={
           <ProtectedRoute  isAuth={ (user.isLoggedIn) ? true : false } >
             <Profile />
@@ -60,6 +63,7 @@ function App() {
         {/* dashboard routes */}
         <Route path='/dashboard' element={<LazyDashboardPage />} />
         <Route path='/dashboard/add/product' element={<LazyAddProduct />} />
+        <Route path='/dashboard/update/product/:id' element={<LazyUpdateProduct />} />
         <Route path='/dashboard/products' element={<LazyProducts />} />
         <Route path='/dashboard/products/stock' element={<LazyProductsOutOfStock />} />
         <Route path='/dashboard/users' element={<LazyListUsers />} />

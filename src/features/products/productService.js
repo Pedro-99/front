@@ -15,12 +15,12 @@ const createProduct = async (productData) => {
   return response.data
 }
 // Update product
-const UpdateProduct = async (productData,productId) => {
+const updateProduct = async (productData,productId) => {
   const config = {
     headers: authHeader() 
   }
 
-  const response = await axios.post(baseUrl + `/products/update/${productId}`, productData, config)
+  const response = await axios.put(baseUrl + `/products/update/${productId}`, productData, config)
 
   return response.data
 }
@@ -70,6 +70,7 @@ const productService = {
   createProduct,
   getProducts,
   deleteProduct,
+  updateProduct,
   getLatestProducts,
   getProductById,
 }

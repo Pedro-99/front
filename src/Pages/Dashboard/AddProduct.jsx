@@ -107,10 +107,10 @@ const AddProduct = () => {
                                 </div>
 
                                 <div className="col-sm-6">
-                                    <label for="country" className="form-label fw-bold">Category <span className="text-danger"> *</span></label>
+                                    <label for="category" className="form-label fw-bold">Category <span className="text-danger"> *</span></label>
                                     <select 
                                     className="form-select"
-                                     id="country"
+                                     id="category"
                                      value={categoryOption}
                                      onChange= { (e) => {
                                          setCategoryOption(e.target.value)
@@ -136,7 +136,7 @@ const AddProduct = () => {
 
                                     </select>
                                     <div className="invalid-feedback">
-                                        Please select a valid country.
+                                        Please select a valid category.
                                     </div>
                                 </div>
 

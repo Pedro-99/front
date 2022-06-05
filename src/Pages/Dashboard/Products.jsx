@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import {Link} from 'react-router-dom';
 import DashboardLayout from "../../Layouts/DashboardLayout";
 import productService from "../../features/products/productService";
 import { toast } from 'react-toastify';
@@ -8,6 +9,22 @@ const Products = () => {
     const [products, setProducts] = useState([]);
     const [onDelete, setOnDelete] = useState(false);
     const [search, setSearch] = useState("");
+    const [formData, setFormData] = useState({
+        name: '',
+        description: '',
+        price: null,
+        quantity: null,
+        
+    })
+
+    const { name, description, price, quantity } = formData
+
+    const onChange = (e) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }))
+    }
 
     useEffect(() => {
 
@@ -98,11 +115,15 @@ const Products = () => {
                                                     <td>{product.createdAt}</td>
                                                     <td>{product.updatedAt}</td>
                                                     <td
+                                                    
                                                    style={{
                                                     'cursor' : 'pointer'
                                                     }}
                                                     >
+                                                        <Link to={`/dashboard/update/product/${product.id}`}>
                                                         Update
+                                                        </Link>
+                                                        
                                                         </td>
                                                     <td 
                                                       style={{

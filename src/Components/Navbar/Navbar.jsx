@@ -65,7 +65,7 @@ const Navbar = () => {
                                         categories ? categories.map( (category, index) => {
                                             return(
                                                 <li key={index}>
-                                                    <a className="dropdown-item" href="#">{category.name}</a>
+                                                    <Link className="dropdown-item" to={`/products/category/${category.name}`}>{category.name}</Link>
                                                     </li>
                                             )
                                         }) : <>Loading...</>
