@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from "react";
 import DashboardLayout from "../../Layouts/DashboardLayout";
 import productService from "../../features/products/productService";
+import { toast } from 'react-toastify';
 
 const Products = () => {
 
     const [products, setProducts] = useState([]);
+    const [onDelete, setOnDelete] = useState(false);
     const [search, setSearch] = useState("");
 
     useEffect(() => {
@@ -21,7 +23,30 @@ const Products = () => {
         })
             .catch((err) => console.log("error : fetching data failed", err))
 
-    }, [])
+    }, [onDelete])
+
+    // const updateProduct = (e) => {
+    //     e.preventDefault();
+    //     const formData = new FormData();
+    //     formData.append('name',name);
+    //     formData.append('description',description);
+    //     formData.append('price',parseFloat(price));
+    //     formData.append('quantity',parseInt(quantity));
+    //     formData.append('image',image);
+    //     formData.append('categoryOption',parseInt(categoryOption));
+
+         
+    //     productService.updateProduct(formData)
+    //       .then((product)=>{
+             
+    //        if(product) toast.success('product updated successufully');
+    //     })
+    //     .catch((err)=> {
+    //         toast.error(err.message);
+    //     })
+        
+
+    // }
 
     return (
         <DashboardLayout>
@@ -52,6 +77,7 @@ const Products = () => {
                                             <th>Description</th>
                                             <th>Price</th>
                                             <th>Quantity</th>
+                                            <th>Image</th>
                                             <th>Created At</th>
                                             <th>Updated At</th>
                                             <th>Update</th>
@@ -68,10 +94,32 @@ const Products = () => {
                                                     <td>{product.description}</td>
                                                     <td>{product.price}</td>
                                                     <td>{product.quantity}</td>
+                                                    <td>{product.image}</td>
                                                     <td>{product.createdAt}</td>
                                                     <td>{product.updatedAt}</td>
-                                                    <th><a className="text-dark"   href="/Dashboard/Products/id">Update</a></th>
-                                                    <th><a className="text-dark"  href="/Dashboard/Products/id">Delete</a></th>
+                                                    <td
+                                                   style={{
+                                                    'cursor' : 'pointer'
+                                                    }}
+                                                    >
+                                                        Update
+                                                        </td>
+                                                    <td 
+                                                      style={{
+                                                          'cursor' : 'pointer'
+                                                      }}
+                                                           onClick={() => {
+                                                            if(window.confirm('Are you sure you want to delete this product')){
+                                                                productService.deleteProduct(product.id).then((response)=>{
+                                                                    setOnDelete(!onDelete)
+                                                                    
+                                                                    toast.error(response.message)
+                                                                })
+                                                               
+                                                            }
+                                                           
+                                                        }}
+                                                    >Delete</td>
                                                 </tr>
                                                 )
                                             })

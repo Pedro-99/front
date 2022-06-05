@@ -4,7 +4,7 @@ import categoryService from '../../features/categories/categoryService';
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 
-const FormAdd = () => {
+// const FormAdd = () => {
 
 
     // useEffect(() => {
@@ -15,10 +15,10 @@ const FormAdd = () => {
 
     // }, [])
 
-    return (
-      <></>
-    );
-}
+    // return (
+    //   <></>
+    // );
+// }
 const ProductsCategories = () => {
     const [categories, setCategories] = useState(null);
     const [showResults, setShowResults] = useState(false);
@@ -58,21 +58,6 @@ const ProductsCategories = () => {
 
     }, [onSubmit,onDelete])
 
-    // const handleMenuClick = (record, e) => {
-
-    //     const { onDeleteItem, onEditItem } = props
-    
-    //     if (e.key === '1') {
-    //       onEditItem(record)
-    //     } else if (e.key === '2') {
-    //       confirm({
-    //         title: `Are you sure delete this record?`,
-    //         onOk() {
-    //           onDeleteItem(record.id)
-    //         },
-    //       })
-    //     }
-    //   }
 
     return (
         <>
@@ -148,15 +133,13 @@ const ProductsCategories = () => {
                                                                     to="/dashboard/products/categories"
                                                                     onClick={() => {
                                                                         if(window.confirm('Are you sure you want to delete this item')){
-                                                                            categoryService.deleteCategory(category.id)
-                                                                            toast.error('category deleted successufully')
-                                                                            setOnDelete(!onDelete)
+                                                                            categoryService.deleteCategory(category.id).then((response)=>{
+                                                                                setOnDelete(!onDelete)
+                                                                                
+                                                                                toast.error(response.message)
+                                                                            })
+                                                                           
                                                                         }
-                                                                       
-                                                                        // confirm(
-                                                                        //     { title :`Are you sure delete this record?`,
-                                                                        //      onOk : () => {categoryService.deleteCategory(category.id)}}
-                                                                        //   )
                                                                        
                                                                     }}
                                                                     >

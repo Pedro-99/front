@@ -12,7 +12,8 @@ const Navbar = () => {
     const dispatch = useDispatch()
     const auth = useSelector((state) => state.auth)
     const [categories, setCategories] = useState(null)
-    const { cart } = useSelector( (state) => state.cart)
+    // const { cart } = useSelector( (state) => state.cart)
+    const ROLE_ADMIN = "ROLE_ADMIN"
 
     useEffect( () => {
  
@@ -86,15 +87,36 @@ const Navbar = () => {
                             </li> */}
                         </ul>
                         <form className="d-flex align-items-center text-center justify-content-center">
+                        <Link className="btn " to="/products" ><i className="fa fa-search me-1">
+                             </i>
+                              </Link>
                         
                         {
                              
                                 (auth.user != null) ? (
                                     <>
-                                        <Link className="btn " to='/' onClick={onLogout}>
+                                   
+                                      
+                                        <Link to="/cart" className="btn  ms-2" type="submit"><i className="fa fa-shopping-cart me-1"></i></Link>
+                                        <form className="d-flex align-items-center text-center justify-content-center">
+                                    <div className="btn-group">
+                                        <a href="#" className="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+                                                {/* <img src="/assests/profile.jpg" alt="mdo" width="24" height="24" className="rounded-circle" /> */}
+                                            </a>
+                                            <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-end text-small shadow" >
+                                                <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
+                                                {
+                                                    auth.user && auth.user.roles.includes(ROLE_ADMIN) && 
+                                                    <li><Link className="dropdown-item" to="/dashboard">Dashboard</Link></li>
+                                                }
+                                                <li><hr className="dropdown-divider" /></li>
+                                                <li>   <Link className="btn dropdown-item " to='/' onClick={onLogout}>
                                             <i className="fa fa-sign-in me-1"></i> Logout
-                                        </Link>
-                                        <Link to="/cart" className="btn  ms-2" type="submit"><i className="fa fa-shopping-cart me-1"></i> Cart</Link>
+                                        </Link> </li>
+                                            </ul>
+                                        </div>
+                                  
+                                    </form>
                                     </>
                                 ) : (
                                     <>
@@ -104,9 +126,7 @@ const Navbar = () => {
 
                                 )
                             }
-                            <Link className="btn " to="/products" ><i className="fa fa-search me-1">
-                             </i>
-                              </Link>
+                          
                         </form>
                     </div>
                 </div>

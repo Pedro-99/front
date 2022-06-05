@@ -28,7 +28,7 @@ const deleteCategory = async (categoryId) => {
     headers: authHeader() 
   }
 
-  const response = await axios.delete(baseUrl + `/categories/delete/${categoryId}`,categoryId,config)
+  const response = await axios.delete(baseUrl + `/categories/delete/${categoryId}`,config)
 
   return response.data
 }

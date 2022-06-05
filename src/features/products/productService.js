@@ -5,12 +5,22 @@ import authHeader from '../../services/auth-header';
 const baseUrl = 'http://localhost:5000';
 
 // Create new product
-const createProduct = async (productData, token) => {
+const createProduct = async (productData) => {
   const config = {
     headers: authHeader() 
   }
 
-  const response = await axios.post(baseUrl, productData, config)
+  const response = await axios.post(baseUrl + "/products/create", productData, config)
+
+  return response.data
+}
+// Update product
+const UpdateProduct = async (productData,productId) => {
+  const config = {
+    headers: authHeader() 
+  }
+
+  const response = await axios.post(baseUrl + `/products/update/${productId}`, productData, config)
 
   return response.data
 }
@@ -46,12 +56,12 @@ const getProductById = async (pid) => {
 }
 
 
-const deleteProduct = async (productId, authHeader) => {
+const deleteProduct = async (productId) => {
   const config = {
     headers: authHeader() 
   }
 
-  const response = await axios.delete(baseUrl + productId, config)
+  const response = await axios.delete(baseUrl + `/products/delete/${productId}`, config)
 
   return response.data
 }
