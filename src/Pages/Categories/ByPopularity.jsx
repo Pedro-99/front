@@ -37,21 +37,21 @@ const ByPopularity = () =>{
             .catch((err) => console.log("error : fetching data failed", err))
 
     }, [])
-    // console.log(category)
+    
     return(
         <>
                     <div class="col-md-8">
                 <h3 class="pb-4 mb-4 fst-italic border-bottom">
-                    Products By Popularity
+                    Products By Category
                 </h3>
-                <article class="blog-post">
-                    <h2 class="blog-post-title mb-5">Most Popular Products</h2>
-                    <div className="container mb-5">
+                <article class="blog-post">             
+                    <div className="container">
                         <div className="row">
-                            <div className="col-6">
+                            
                                 {
                                     products && products.filter((item) => (item.productCategoryId == category.id )).map((product, index) => {
                                         return(
+                                            <div className="col-sm-6">
                                             <Card
                                             key={index}
                                             id={product.id}
@@ -61,10 +61,11 @@ const ByPopularity = () =>{
                                             image={product.image}
 
                                         />
+                                        </div>
                                         )
                                     })
                                 }
-                            </div>
+                            
                           
                         </div>
                     </div>

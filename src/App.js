@@ -1,24 +1,13 @@
-import {lazy,Suspense} from 'react'
+import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Spinner from './Components/spinner/index';
-// import Login from './Components/Sign-IN-UP/Login';
-// import Register1 from './Components/Sign-IN-UP/Register';
-// import HomePage from './Pages/Home/Index';
-// import PageDetails from './Pages/Products/PageDetails';
-// import ContactPage from './Pages/Contact/ContactPage';
-// import SearchPage from './Pages/Search/SearchPage';
-// import Profile from './Pages/UsersProfile/Index.jsx';
-// import AddProduct from './Pages/Dashboard/AddProduct';
-// import Products from './Pages/Dashboard/Products';
-// import ProductsOutOfStock from './Pages/Dashboard/Stock';
-// import ListUsers from './Pages/Dashboard/Users';
-// import ProductsCategories from './Pages/Dashboard/ProductsCategories';
-// import DashboardPage from './Pages/Dashboard';
-// import ProductsOption from './Pages/Dashboard/ProductsOptions';
-// import Cart from './Components/Cart/Cart';
 
+
+const LazyRequireAuth = lazy(() => import('./Components/RequireAuth'));
+const LazyNotFound = lazy(() => import('./Components/NotFound/NotFound'));
+const LazyUnauthorized = lazy(() => import('./Components/Unauthorized'));
 const LazyLogin = lazy(() => import('./Components/Sign-IN-UP/Login'));
 const LazyRegister = lazy(() => import('./Components/Sign-IN-UP/Register'));
 const LazyHomePage = lazy(() => import('./Pages/Home/Index'));
@@ -35,42 +24,71 @@ const LazyProducts = lazy(() => import('./Pages/Dashboard/Products'));
 const LazyProductsOutOfStock = lazy(() => import('./Pages/Dashboard/Stock'));
 const LazyProductsCategories = lazy(() => import('./Pages/Dashboard/ProductsCategories'));
 const LazyListUsers = lazy(() => import('./Pages/Dashboard/Users'));
-const LazyProductsOption = lazy(() => import('./Pages/Dashboard/ProductsOptions'));
+
+
 
 function App() {
-  
-  // const user = JSON.parse(localStorage.getItem('user')) || {};
+
+
+  const ROLES = {
+    'User': 'ROLE_USER',
+    'Admin': 'ROLE_ADMIN'
+  }
 
   return (
     <div>
-        <Suspense fallback={<Spinner/>}>
-      <Routes>
-        <Route path="/login" element={<LazyLogin />} />
-        <Route path="/register" element={<LazyRegister />} />
-        <Route path="/" element={<LazyHomePage />} />
-        <Route path='/products/:pid' element={<LazyPageDetails />} />
-        <Route path='/contact-us' element={<LazyContactPage />} />
-        <Route path='/products' element={<LazySearchPage />} />
-        <Route path='/profile' element={<LazyProfile />} />
-        <Route path='/cart' element={<LazyCart />} />
-        <Route path='/products/category/:name' element={<LazyProductsByCtaegory />} />
-        {/* <Route path="/profile" element={
-          <ProtectedRoute  isAuth={ (user.isLoggedIn) ? true : false } >
-            <Profile />
-          </ProtectedRoute>
-        } 
-        /> */}
-        {/* dashboard routes */}
-        <Route path='/dashboard' element={<LazyDashboardPage />} />
-        <Route path='/dashboard/add/product' element={<LazyAddProduct />} />
-        <Route path='/dashboard/update/product/:id' element={<LazyUpdateProduct />} />
-        <Route path='/dashboard/products' element={<LazyProducts />} />
-        <Route path='/dashboard/products/stock' element={<LazyProductsOutOfStock />} />
-        <Route path='/dashboard/users' element={<LazyListUsers />} />
-        <Route path='/dashboard/products/categories' element={<LazyProductsCategories />} />
-        <Route path='/dashboard/products/options' element={<LazyProductsOption />} />
-      </Routes>
-        </Suspense>
+      <Suspense fallback={<Spinner />}>
+        <Routes>
+          <Route path="/login" element={<LazyLogin />} />
+          <Route path="/register" element={<LazyRegister />} />
+          {["/home", "/"].map((path, index) =>
+            <Route path={path} key={index} element={<LazyHomePage />}
+            />
+          )}
+          <Route path='/products/:pid' element={<LazyPageDetails />} />
+          <Route path='/contact-us' element={<LazyContactPage />} />
+          <Route path='/products' element={<LazySearchPage />} />
+          <Route path='/profile' element={<LazyProfile />} />
+          <Route path='/cart' element={<LazyCart />} />
+          <Route path='/products/category/:name' element={<LazyProductsByCtaegory />} />
+   
+          {/* dashboard routes */}
+          <Route element={<LazyRequireAuth allowedRoles={[ROLES.Admin]} />}>
+            <Route path='/dashboard' element={<LazyDashboardPage />} />
+          </Route>
+          <Route element={<LazyRequireAuth allowedRoles={[ROLES.Admin]} />}>
+
+            <Route path='/dashboard/add/product' element={<LazyAddProduct />} />
+          </Route>
+          <Route element={<LazyRequireAuth allowedRoles={[ROLES.Admin]} />}>
+
+          <Route path='/dashboard/update/product/:id' element={<LazyUpdateProduct />} />
+          </Route>
+          <Route element={<LazyRequireAuth allowedRoles={[ROLES.Admin]} />}>
+
+          <Route path='/dashboard/products' element={<LazyProducts />} />
+          </Route>
+          <Route element={<LazyRequireAuth allowedRoles={[ROLES.Admin]} />}>
+
+          <Route path='/dashboard/products/stock' element={<LazyProductsOutOfStock />} />
+          </Route>
+          <Route element={<LazyRequireAuth allowedRoles={[ROLES.Admin]} />}>
+
+          <Route path='/dashboard/users' element={<LazyListUsers />} />
+          </Route>
+          <Route element={<LazyRequireAuth allowedRoles={[ROLES.Admin]} />}>
+
+          <Route path='/dashboard/products/categories' element={<LazyProductsCategories />} />
+          </Route>
+
+        
+        <Route path="/unauthorized" element={<LazyUnauthorized />} />
+        <Route path='*' element={<LazyNotFound />} />
+         
+         
+         
+        </Routes>
+      </Suspense>
       <ToastContainer />
     </div>
   );

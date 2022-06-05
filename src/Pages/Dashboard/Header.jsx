@@ -69,12 +69,12 @@ const Header = () => {
                                             <li><Link to="/dashboard/products/categories" className="link-dark  rounded mb-2">
                                                 <button className="btn ">Categories</button>
                                             </Link></li>
-                                            <li><Link to="/dashboard/products/options" className="link-dark  rounded mb-2">
+                                            {/* <li><Link to="/dashboard/products/options" className="link-dark  rounded mb-2">
                                                 <button className="btn ">Options</button>
                                             </Link></li>
                                             <li><Link to="/dashboard/products/stock" className="link-dark  rounded mb-2">
                                                 <button className="btn ">Out Of Stock</button>
-                                            </Link></li>
+                                            </Link></li> */}
                                         </ul>
                                     </div>
                                 </li>

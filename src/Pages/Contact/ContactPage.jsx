@@ -1,7 +1,24 @@
-import React from "react";
+import React ,{useState } from "react";
+import emailjs from '@emailjs/browser';
+import  {useSelector} from "react-redux";
 import HomeLayout from "../../Layouts/HomeLayout";
 import "./ContactPage.css"
 const ContactPage = () => {
+    const {user} = useSelector((state) => state.auth)
+    const [customer, setCustomer] = useState(user);
+    // const form = useRef();
+
+    // const sendEmail = (e) => {
+    //     e.preventDefault();
+    
+    //     emailjs.sendForm('gmail', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
+    //       .then((result) => {
+    //           console.log(result.text);
+    //       }, (error) => {
+    //           console.log(error.text);
+    //       });
+    //   };
+    // console.log(customer)
     return (
         <>
         <HomeLayout>
@@ -53,13 +70,18 @@ const ContactPage = () => {
                         </div>
                         <div className="form">
                             <h1 className="text-uppercase">Get In Touch</h1>
-                            <form action="">
+                            <form >
                                 <div className="flex-rev">
-                                    <input type="text" placeholder="Enter your Name" name="name" id="name" />
+                                    <input
+                                    value={customer.username}
+                                     type="text" placeholder="Enter your Name" name="name" id="name" />
                                     <label for="name">Full Name</label>
                                 </div>
                                 <div className="flex-rev">
-                                    <input type="email" placeholder="Enter your Email" name="email" id="email" />
+                                    <input 
+                                    value={customer.email}
+                                    onChange={(e) => {setCustomer(e.target.value)}}
+                                    type="email" placeholder="Enter your Email" name="email" id="email" />
                                     <label for="email">Your Email</label>
                                 </div>
 
@@ -67,7 +89,8 @@ const ContactPage = () => {
                                     <textarea placeholder="Your message...." name="message" id="message" />
                                     <label for="message">Email Message</label>
                                 </div>
-                                <button>Send Email <i className="fa fa-paper-plane"></i></button>
+                                
+                                <button type="submit" value="Send">Send Email <i className="fa fa-paper-plane"></i></button>
                             </form>
                         </div>
                     </div>

@@ -45,7 +45,7 @@ const SearchPage = () => {
 
                             <div className="col-6 text-center d-flex">
                                 <input
-                                    className="form-control form-control-dark w-100 ms-2"
+                                    className=" form-control form-control-dark w-100 ms-2"
                                     placeholder="Search your product"
                                     aria-label="search"
                                     type="search"
@@ -53,7 +53,7 @@ const SearchPage = () => {
                                     id="search-form"
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)} />
-                                <button className="link bg-trasparent ms-2" href="#" aria-label="Search">
+                                <button className="btn btn-secondary " href="#" aria-label="Search">
                                     <i className="fa fa-search"></i>
                                 </button>
                             </div>

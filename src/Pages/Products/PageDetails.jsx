@@ -84,13 +84,13 @@ const PageDetails = () => {
                             <div>
                             {
                                 (productQty === 0) ? <>
-                                    <button onClick = {increment}>+</button>
+                                    <button className="btn btn-secondary" onClick = {increment}>+</button>
                             <span className='mx-3'>{productQty}</span>
-                            <button disabled={true} onClick = {decrement }>-</button>
+                            <button className="btn btn-secondary" disabled={true} onClick = {decrement }>-</button>
                                 </> : 
-                                <>    <button onClick = {increment}>+</button>
+                                <>    <button className="btn btn-secondary" onClick = {increment}>+</button>
                                 <span className='mx-3' >{productQty}</span>
-                                <button onClick = {decrement }>-</button></>
+                                <button className="btn btn-secondary" onClick = {decrement }>-</button></>
                             }
                         
                             </div>

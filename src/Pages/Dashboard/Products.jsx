@@ -64,7 +64,7 @@ const Products = () => {
         
 
     // }
-
+console.log(products)
     return (
         <DashboardLayout>
             <section class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
@@ -94,6 +94,7 @@ const Products = () => {
                                             <th>Description</th>
                                             <th>Price</th>
                                             <th>Quantity</th>
+                                            <th>Category</th>
                                             <th>Image</th>
                                             <th>Created At</th>
                                             <th>Updated At</th>
@@ -111,6 +112,9 @@ const Products = () => {
                                                     <td>{product.description}</td>
                                                     <td>{product.price}</td>
                                                     <td>{product.quantity}</td>
+                                                   {
+                                                       product['product-category'] ?  <td>{product['product-category'].name}</td> : <td>Unknown</td>
+                                                   }
                                                     <td>{product.image}</td>
                                                     <td>{product.createdAt}</td>
                                                     <td>{product.updatedAt}</td>

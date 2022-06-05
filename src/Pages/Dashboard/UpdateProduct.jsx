@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Spinner from '../../Components/spinner/index';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import productService from '../../features/products/productService';
 import categoryService from '../../features/categories/categoryService';
 import { useParams } from 'react-router-dom';
@@ -9,6 +9,7 @@ import DashboardLayout from "../../Layouts/DashboardLayout";
 
 const UpdateProduct = () => {
   let { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState({
     name : "",
     description : "",
@@ -17,7 +18,15 @@ const UpdateProduct = () => {
     // image : "",
     productCategoryId : 0
   });
-  const [image, setImage] = useState("");
+  const {
+    name,
+    description,
+    price,
+    quantity,
+    image,
+    productCategoryId
+  } = product
+  const [newImage, setNewImage] = useState("");
   const [categories, setCategories] = useState(null);
   const [categoryOption, setCategoryOption] = useState("Unknown");
 
@@ -50,18 +59,30 @@ const UpdateProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
+    if(newImage.length !== 0 && newImage !== image){
+        formData.append('image',newImage);
+    }
+    if(categoryOption !=="Unknown"){
+       formData.append('productCategoryId',parseInt(categoryOption));
+    }else{
+
+        formData.append('productCategoryId',parseInt(productCategoryId));
+    }
+
+    formData.append('image',image);
     formData.append('name',name);
     formData.append('description',description);
     formData.append('price',parseFloat(price));
     formData.append('quantity',parseInt(quantity));
-    formData.append('image',image);
-    formData.append('categoryOption',parseInt(categoryOption));
+    
+    
 
      
     productService.updateProduct(formData, parseInt(id) )
       .then((product)=>{
          
        if(product) toast.success('product updated successufully');
+       navigate('/dashboard/products',{replace:true})
     })
     .catch((err)=> {
         toast.error(err.message);
@@ -70,16 +91,6 @@ const UpdateProduct = () => {
 
 }
 
-  const {
-    name,
-    description,
-    price,
-    quantity,
-    // image,
-    
-  } = product
-
-  console.log(image)
     return (
         <DashboardLayout>
             <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
@@ -89,7 +100,7 @@ const UpdateProduct = () => {
                         <div className="card p-4 mb-2">
                             <div className="row g-3">
                                 <div className="col-sm-6">
-                                    <label for="firstName" className="form-label fw-bold">Title <span className="text-danger"> *</span></label>
+                                    <label for="firstName" className="form-label fw-bold">Title <span className="text-danger"> </span></label>
                                    {
                                      product ?  <input type="text" className="form-control" id="name" placeholder="" value={name}  onChange={onChange} name="name" required /> : <Spinner />
                                    }
@@ -99,7 +110,7 @@ const UpdateProduct = () => {
                                 </div>
 
                                 <div className="col-sm-6">
-                                    <label for="lastName" className="form-label fw-bold">Price <span className="text-danger"> *</span></label>
+                                    <label for="lastName" className="form-label fw-bold">Price <span className="text-danger"> </span></label>
                                     {
                                       product ? <input type="text" className="form-control" id="lastName" placeholder="" name="price" value={price} onChange={onChange} required /> : <Spinner />
                                     }
@@ -109,7 +120,7 @@ const UpdateProduct = () => {
                                 </div>
 
                                 <div className="col-sm-6">
-                                <label for="category" className="form-label fw-bold">Category <span className="text-danger"> *</span></label>
+                                <label for="category" className="form-label fw-bold">Category <span className="text-danger"> </span></label>
                                     <select 
                                     className="form-select"
                                      id="category"
@@ -137,15 +148,22 @@ const UpdateProduct = () => {
                                         }
 
                                     </select>
-                                   
+                                    
                                     <div className="invalid-feedback">
                                         Please select a valid category.
                                     </div>
                                 </div>
 
 
+                                {/* <div className="col-sm-6">
+                                {
+                                     product ?  <span>{product['product-category'].name}</span>
+                                     :
+                                     <Spinner />
+                                   }
+                                </div> */}
                                 <div className="col-sm-6">
-                                    <label for="lastName" className="form-label fw-bold">Quantity <span className="text-danger"> *</span></label>
+                                    <label for="lastName" className="form-label fw-bold">Quantity <span className="text-danger"> </span></label>
                                    {
                                      product ?  <input type="text" className="form-control" id="lastName" placeholder="" name="quantity" value={quantity} onChange={onChange} required />
                                      :
@@ -157,7 +175,7 @@ const UpdateProduct = () => {
                                 </div>
 
                                 <div className="col-12">
-                                    <label for="description" className="form-label fw-bold">Description <span className="text-danger"> *</span></label>
+                                    <label for="description" className="form-label fw-bold">Description <span className="text-danger"> </span></label>
                                     {
                                      product ?   <textarea type="text" className="form-control" value={description} name="description" onChange={onChange} id="description" placeholder="Apartment or suite" />
                                      :
@@ -167,16 +185,18 @@ const UpdateProduct = () => {
                                 </div>
 
                                 <div className="col-12">
-                                    <label for="photo" className="form-label fw-bold">Photos <span className="text-danger"> *</span></label>
-                                    {/* <div>
+                                    <label for="photo" className="form-label fw-bold">Photos <span className="text-danger"> 
+                                    </span></label>
+                                    <div>
                                     <img src={image} alt={image} width="70px" height="70px"/>
-                                    </div> */}
+                                    </div>
                                     <input 
                                      type="file"
                                     //  className="form-control"
                                      name="image"
                                      id="image"
-                                     onChange={(e) => setImage( e.target.files[0].name)}
+                                    //  value={newImage}
+                                     onChange={(e) => setNewImage( e.target.files[0])}
                                    
                                         />
                                 </div>

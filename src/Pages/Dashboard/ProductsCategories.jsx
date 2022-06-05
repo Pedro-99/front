@@ -4,27 +4,12 @@ import categoryService from '../../features/categories/categoryService';
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 
-// const FormAdd = () => {
 
-
-    // useEffect(() => {
-
-        // categoryService.addCategory().then( (data) => {
-        //     setCategories(data)
-        // })
-
-    // }, [])
-
-    // return (
-    //   <></>
-    // );
-// }
 const ProductsCategories = () => {
     const [categories, setCategories] = useState(null);
     const [showResults, setShowResults] = useState(false);
     const [onSubmit, setOnSubmit] = useState(false);
     const [onDelete, setOnDelete] = useState(false);
-    const [category, setCategory] = useState(null);
     const [name, setName] = useState("");
 
 
@@ -47,7 +32,7 @@ const ProductsCategories = () => {
     }
 
     const onClick = () => setShowResults(!showResults)
-    // const onRerender = () => setOnSubmit(!onSubmit)
+   
 
     useEffect(() => {
 
@@ -94,7 +79,7 @@ const ProductsCategories = () => {
                      className="btn btn-outline-secondary ms-2"
                      onClick={(e) => {
                         handleSubmit(e);
-                        // onRerender()
+                        
                      } }
                       >Submit</button>
                     <div className="invalid-feedback">
