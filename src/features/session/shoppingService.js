@@ -13,10 +13,20 @@ const getShoppingSession = async (userId) => {
   return response.data
 }
 
+// update ShoppingSession
+const updateShoppingSession = async (userId,total) => {
 
+  const response = await axios.put(baseUrl + `/session/user/${userId}`,{'total':total})
+  if(response.data){
+    localStorage.setItem('session',JSON.stringify(response.data))
+  }
+
+  return response.data
+}
 
 const shoppingService = {
   getShoppingSession,
+  updateShoppingSession
 }
 
 export default shoppingService

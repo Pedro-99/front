@@ -1,29 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import userService from '../../features/users/userService';
-import orderService from '../../features/order/orderService';
-import { placeOrder } from '../../features/order/orderSlice';
-import HomeLayout from "../../Layouts/HomeLayout";
-import DeliveryInfo from '../../Components/DeliveryBanner/DeliveryInfo'
-import CheckoutLayout from '../../Layouts/CheckoutLayout'
+import userService from '../features/users/userService';
+import orderService from '../features/order/orderService';
+import { placeOrder } from '../features/order/orderSlice';
+import HomeLayout from "../Layouts/HomeLayout";
+import DeliveryInfo from '../Components/DeliveryBanner/DeliveryInfo'
+import CheckoutLayout from '../Layouts/CheckoutLayout'
 import axios from 'axios';
 
 
 
 const CheckoutForm = () => {
+  const {orderId} = useParams()
   let session = JSON.parse(localStorage.getItem('session'));
   let cart = JSON.parse(localStorage.getItem('cart'));
   const [localUser, setLocalUser] = useState(null)
   const { user } = useSelector((state) => state.auth)
   const { order } = useSelector((state) => state.order)
-  const [localOrder, setLocalOrder] = useState({
-    id: order.id,
-    total: order.total,
-    userId: order.userId,
-    isPaid: order.isPaid,
-    isDelivered: order.isDelivered,
-  })
+  const [localOrder, setLocalOrder] = useState(null)
+  const [error, setError] = useState(null)
   const [countries, setCountries] = useState([]);
   const [Cities, setCities] = useState([]);
   const [code_postal, setCode_postal] = useState("");
@@ -39,6 +35,17 @@ const CheckoutForm = () => {
   // console.log(localCart)
   // console.log(localSession)
 
+  useEffect(()=>{
+    orderService.getOrder(parseInt(orderId))
+                .then((res) => {
+                  setLocalOrder(res)
+                })
+                .catch((err) => {
+                  setError(err.response.data.msg)
+                
+                })
+  },[orderId])
+
 
   const dispatch = useDispatch();
 
@@ -49,18 +56,24 @@ const CheckoutForm = () => {
       isPaid: false,
       isDelivered: false,
     }
+
     // orderService.addOrder(order)
     dispatch(placeOrder(order))
+
   }
-  // const addOrderItems = () => {
- 
-  //   cart.map((cartItem) => {
-  //     return(
-  //       orderService.addOrderItems(cartItem)
-  //     )
-  //   })
-    
+  // const createOrderItem = () => {
+  //   const order = {
+  //     total: localSession.total,
+  //     userId: localSession.userId,
+  //     isPaid: false,
+  //     isDelivered: false,
+  //   }
+
+  //   dispatch(placeOrder(order))
+
   // }
+
+
 
   const fetchCountries = async () => {
     let country = await axios.get(
@@ -124,6 +137,17 @@ const CheckoutForm = () => {
        <></>
     } */}
 
+{
+  localOrder ?  <DeliveryInfo
+  isDelivered={localOrder.isPaid}
+  isPaid={localOrder.isDelivered} 
+  />
+  :
+  <div>
+   <h2>op's ! {error}</h2>
+  </div>
+}
+     
             <div className="py-5 text-center">
               <h2>Checkout form</h2>
             </div>
@@ -164,6 +188,13 @@ const CheckoutForm = () => {
             <strong className='text-info'>xxx</strong>
           </li> */}
                 </ul>
+                <button
+                      onClick={() => {
+                        createOrder();
+
+                   
+                      }}
+                      className="bg-warning p-2 text-light fw-bolder text-center w-100 border-success">Paypal</button>
                 {/* {
                   (order.isPaid !== null) ?
                     (order.isPaid === true) ? <button
@@ -184,17 +215,7 @@ const CheckoutForm = () => {
                       className="bg-success p-2 text-light fw-bolder text-center w-100 border-success">Place an order </button>
                 } */}
 
-                <a
-                 href={`/order/${order.id}`}
-                 onClick={() => {
-
-                   createOrder();
-                   // setDeliveryInfo(!deliveryInfo)
-                 }}
-                 className="bg-success p-2 text-light fw-bolder text-center w-100 border-success"
-                >
-                Place an order 
-                </a>
+            
 
               
               

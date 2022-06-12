@@ -7,6 +7,9 @@ import { toast } from 'react-toastify';
 const Products = () => {
 
     const [products, setProducts] = useState([]);
+    const [page, setPage] = useState(0);
+    const [size, setSize] = useState(10);
+    const [numberOfPages, setNumberOfPages] = useState(0);
     const [onDelete, setOnDelete] = useState(false);
     const [search, setSearch] = useState("");
     const [formData, setFormData] = useState({
@@ -16,6 +19,16 @@ const Products = () => {
         quantity: null,
         
     })
+
+    const pages = new Array(numberOfPages).fill(null).map((v, i) => i);
+
+    const gotoPrevious = () => {
+        setPage(Math.max(0, page - 1));
+      };
+    
+      const gotoNext = () => {
+        setPage(Math.min(numberOfPages - 1, page + 1));
+      };
 
     const { name, description, price, quantity } = formData
 
@@ -35,39 +48,19 @@ const Products = () => {
     useEffect(() => {
 
 
-        productService.getProducts().then((data) => {
-            setProducts(data)
+        productService.getProductsPagination(page,size).then((data) => {
+            setProducts(data.content);
+            setNumberOfPages(data.totalPages)
         })
             .catch((err) => console.log("error : fetching data failed", err))
 
-    }, [onDelete])
+    }, [onDelete,page,size])
 
-    // const updateProduct = (e) => {
-    //     e.preventDefault();
-    //     const formData = new FormData();
-    //     formData.append('name',name);
-    //     formData.append('description',description);
-    //     formData.append('price',parseFloat(price));
-    //     formData.append('quantity',parseInt(quantity));
-    //     formData.append('image',image);
-    //     formData.append('categoryOption',parseInt(categoryOption));
+ 
 
-         
-    //     productService.updateProduct(formData)
-    //       .then((product)=>{
-             
-    //        if(product) toast.success('product updated successufully');
-    //     })
-    //     .catch((err)=> {
-    //         toast.error(err.message);
-    //     })
-        
-
-    // }
-console.log(products)
     return (
         <DashboardLayout>
-            <section class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
+            <section class="col-md-9 w-100 col-lg-10 ">
             <div  className="row">
                 <h3 className="fst-italic fw-bolder text-center mb-2 py-2">Products List</h3>
                 <div  className="col-md-12 mb-3">
@@ -76,7 +69,7 @@ console.log(products)
                             <span><i  className="fa fa-table me-2"></i>
                             </span> Products Table
                             <div className="float-end d-flex">
-                            <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" />
+                            <input class="form-control form-control-dark w-100" type="text" value={search} placeholder="Search" aria-label="Search"  onChange={(e) => setSearch(e.target.value)}  />
                             <button className="btn btn-outline-secondary">Search</button>
                             </div>
                         </div>
@@ -104,50 +97,67 @@ console.log(products)
                                     </thead>
                                     <tbody>
                                         {
-                                            products && products.map( (product, index) => {
-                                                return(
-                                                    <tr key={index}>
-                                                    <td>{product.id}</td>
-                                                    <td>{product.name}</td>
-                                                    <td>{product.description}</td>
-                                                    <td>{product.price}</td>
-                                                    <td>{product.quantity}</td>
-                                                   {
-                                                       product['product-category'] ?  <td>{product['product-category'].name}</td> : <td>Unknown</td>
-                                                   }
-                                                    <td>{product.image}</td>
-                                                    <td>{product.createdAt}</td>
-                                                    <td>{product.updatedAt}</td>
-                                                    <td
+
+                           (products.length !== 0) ? (
+
+                            products && products.filter((val) => {
+                                if (search === "") {
+                                    return val
+                                } else if (val.name.toLowerCase().includes(search.toLowerCase())) {
+                                    return val
+                                }
+                            }).map( (product, index) => {
+                                return(
+                                    <tr key={index}>
+                                    <td>{product.id}</td>
+                                    <td>{product.name}</td>
+                                    <td>{product.description}</td>
+                                    <td>{product.price}</td>
+                                    <td>{product.quantity}</td>
+                                   {
+                                       product['product-category'] ?  <td>{product['product-category'].name}</td> : <td>Unknown</td>
+                                   }
+                                    <td>{product.image}</td>
+                                    <td>{product.createdAt}</td>
+                                    <td>{product.updatedAt}</td>
+                                    <td
+                                    
+                                   style={{
+                                    'cursor' : 'pointer'
+                                    }}
+                                    >
+                                        <Link className="text-success fw-bold text-decoration-none " to={`/dashboard/update/product/${product.id}`}>
+                                        Update
+                                        </Link>
+                                        
+                                        </td>
+                                    <td 
+                                    className="text-danger fw-bold"
+                                      style={{
+                                          'cursor' : 'pointer'
+                                      }}
+                                           onClick={() => {
+                                            if(window.confirm('Are you sure you want to delete this product')){
+                                                productService.deleteProduct(product.id).then((response)=>{
+                                                    setOnDelete(!onDelete)
                                                     
-                                                   style={{
-                                                    'cursor' : 'pointer'
-                                                    }}
-                                                    >
-                                                        <Link to={`/dashboard/update/product/${product.id}`}>
-                                                        Update
-                                                        </Link>
-                                                        
-                                                        </td>
-                                                    <td 
-                                                      style={{
-                                                          'cursor' : 'pointer'
-                                                      }}
-                                                           onClick={() => {
-                                                            if(window.confirm('Are you sure you want to delete this product')){
-                                                                productService.deleteProduct(product.id).then((response)=>{
-                                                                    setOnDelete(!onDelete)
-                                                                    
-                                                                    toast.error(response.message)
-                                                                })
-                                                               
-                                                            }
-                                                           
-                                                        }}
-                                                    >Delete</td>
-                                                </tr>
-                                                )
-                                            })
+                                                    toast.error(response.message)
+                                                })
+                                               
+                                            }
+                                           
+                                        }}
+                                    >Delete</td>
+                                </tr>
+
+                                )
+                            })
+
+                           ):(
+                               
+                             <></>
+                           )
+                                         
                                         }
                                       
                                        
@@ -156,9 +166,17 @@ console.log(products)
                                 </table>
                             </div>
                         </div>
+           
                     </div>
                 </div>
             </div>
+            <button onClick={gotoPrevious}>Previous</button>
+      {pages.map((pageIndex) => (
+        <button key={pageIndex} onClick={() => setPage(pageIndex)}>
+          {pageIndex + 1}
+        </button>
+      ))}
+      <button onClick={gotoNext}>Next</button>
             </section>
         </DashboardLayout>
     );

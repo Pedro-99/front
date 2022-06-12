@@ -12,9 +12,10 @@ const Navbar = () => {
     const dispatch = useDispatch()
     const auth = useSelector((state) => state.auth)
     const [categories, setCategories] = useState(null)
-    // const { cart } = useSelector( (state) => state.cart)
+    // const  cart  = JSON.parse(localStorage.getItem("cart"))
     const ROLE_ADMIN = "ROLE_ADMIN"
 
+ 
     useEffect( () => {
  
         categoryService.getCategories().then( (data) => {
@@ -46,7 +47,7 @@ const Navbar = () => {
             <nav className={colorChange ? 'navbar navbar-expand-md navbar-dark fixed-top background-color-down' : 'navbar navbar-expand-md navbar-dark fixed-top background-color'}>
                 <div id="nav-style" className="container-fluid">
                     <a className="navbar-brand bg-transparent" href="/">
-                        <img className="align-top img-style" src="/assests/logo2.png" />
+                        <img className="align-top img-style" src="/assests/logo2.png" style={{'height' : '50px'}} />
                     </a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>

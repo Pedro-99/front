@@ -65,14 +65,9 @@ const SearchPage = () => {
                         </div>
                         <div className="d-flex mt-4 justify-content-center py-1 mb-2">
                             <div className="">
-                                <button className="btn btn-outline-secondary " href="#">All Products</button>
+                                <h3 className=" text-outline-secondary " >All Products</h3>
                             </div>
-                            {/* <div className="">
-                                <button className="btn btn-outline-secondary ms-3" href="#">New Products</button>
-                            </div>
-                            <div className="">
-                                <button className="btn btn-outline-secondary ms-3" href="#">Most Popular</button>
-                            </div> */}
+  
                         </div>
                         <hr className="lines" />
                     </div>
@@ -101,6 +96,7 @@ const SearchPage = () => {
                                                 description={product.description}
                                                 price={product.price}
                                                 image={product.image}
+                                                quantity={product.quantity}
     
                                             />
                                         </div>

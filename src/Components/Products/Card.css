@@ -6,7 +6,6 @@
 #cardpro .product-grid .product-image {
     overflow: hidden;
     position: relative;
-    height : 270px;
     z-index: 1;
 }
 

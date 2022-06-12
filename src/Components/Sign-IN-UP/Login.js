@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify';
 import { login, reset } from '../../features/auth/authSlice.js';
@@ -139,7 +139,7 @@ const Login = () => {
                                     <input className="mb-4" type="password" name="password" placeholder="Enter a valid Password" value={password} onChange={onChange} />
                                 </div>
                                 <div className="row px-3 mb-4">
-                                    <a href="#" className="ml-auto mb-0 text-sm">Forgot Password?</a>
+                                    <Link to="/forget-password" className="ml-auto mb-0 text-sm">Forgot Password?</Link>
                                 </div>
                                 <div className="row mb-3 px-3">
                                     <button type="submit" class="btn btn-outline-dark text-center" onClick={onSubmit}>Login</button>

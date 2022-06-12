@@ -1,18 +1,22 @@
 import { useState, useEffect,useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify';
+import {Link} from 'react-router-dom'
 import HomeLayout from '../../Layouts/HomeLayout';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 // import {incrementQty} from '../../features/Cart/cartSlice'
 import cartService from '../../features/Cart/cartService'
+import sessionService from '../../features/session/shoppingService'
 import './Cart.css';
 
 const Cart = () => {
     const { cart } = useSelector( (state) => state.cart);
     const { shopping_session } = useSelector((state) => state.shopping)
+    const { user } = useSelector((state) => state.auth)
     
     const [cartItems, setCartItems] = useState(cart)
     const [data, setData] = useState(null)
+    const [total, setTotal] = useState(0)
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [onDelete, setOnDelete] = useState(false)
@@ -41,37 +45,26 @@ const Cart = () => {
 
    },[onDelete])
 
-    // const { 
-    //     isEmpty,
-    //     totalUniqueItems,
-    //     items,
-    //     totalItems,
-    //     cartTotal,
-    //     updateItemQuantity,
-    //     removeItem,
-    //     emptyCart,
-    // } = useCart();
 
+   useEffect(() => {
+       if(data) {
+         
+         const res =  data.reduce( (total,cartItem) => {
 
-  
+            let result = total + (cartItem.product.price * cartItem.quantity)
+          
+              return result
+             
+           },0)
+           setTotal(parseFloat(res).toFixed(2))
+        }
+        
+        sessionService.updateShoppingSession(user.id,total )
+   
 
+   },[data,total])
     
-    // const productQty = (qty) => {
-    //     setQuantity(qty) 
-        
-        
-    // }
-    // const incrementItem = (qty) => {
-    //     setQuantity(quantity + 1) 
-        
-    // }
-    // const decrementItem = () => {
-    //     setQuantity(quantity - 1) 
 
-    // }
-
-    // console.log('cartItemwws',cartItems.map( (item) => item.quantity))
-    // if(isEmpty) return <h5 className='text-center py-5'>My Cart is Empty.</h5>
 
     if(isError){
         return <>Error...</>
@@ -85,12 +78,12 @@ const Cart = () => {
         <HomeLayout>
         <div className='container-fluid py-5 mt-5'>
             <div className="row justify-content-center">
-                {/* <h4 className="text-center py-3 text-decoration-underline">My Cart</h4> */}
+               {
+                   (parseInt(total) !== 0) ?  <h4 className="text-center py-3 ">My cart</h4> :
+                   <h4 className="text-center py-3">Cart is empty</h4>
+               }
                 <div className="col-sm-12 col-md-12 col-lg-8 col-xl-8 col-xxl-8 py-4">
-                    {/* <div className="d-flex justify-content-center py-3">
-                        <p className='position-relative fw-bolder text-title'>Cart <span className="postition-absolute translate-middle rounded-pill badge bg-danger mx-1"></span></p>
-                        <p className='fw-bolder text-title'>Total Items <span className="postition-absolute translate-middle rounded-pill badge bg-success mx-1"></span></p>
-                    </div> */}
+                  
                     <div>
                         <table className="table table-light table-hover m-0">
                             <tbody>
@@ -102,7 +95,10 @@ const Cart = () => {
                                             return(
                                                 <tr className='align-middle' key={index}>
                                                 <td>
+                                                    <Link to={`/products/${item.product.id}`} >
                                                 <LazyLoadImage effect="blur" className='img-cart' src={item.product.image} alt={item.product.name} />
+                                                
+                                                    </Link>
                                                     
                                                     </td>
                                                 <td>{item.product.name}</td>
@@ -112,10 +108,13 @@ const Cart = () => {
                                               
                                                   
                                                     <button onClick={() => {
+                                                        
                                                         cartService.removeCartItem(item.product.id,shopping_session.id)  ;
                                                         setOnDelete(!onDelete);
+                                                       
                                                         toast.error('product removed from cart');
                                                     }}  className='btn btn-outline-danger ms-5'>Remove Item</button>
+                                        
                                                 </td>
                                             </tr>
                                             )
@@ -129,12 +128,22 @@ const Cart = () => {
                     </div>
                     <div className="d-flex justify-content-between py-5">
                         <button onClick={() => {
-                            cartService.clearCartItems(shopping_session.id); 
-                            setOnDelete(!onDelete); 
-                            toast.error('cart is cleared successfully');
+                            if(parseInt(total) !== 0) {
+                                cartService.clearCartItems(shopping_session.id); 
+                                setOnDelete(!onDelete); 
+                                
+                                toast.error('cart is cleared successfully');
+                            }
+
+                            
+
+                          
                             }}  className="btn btn-outline-danger">Clear All</button>
                         
-                        <h3>Total Price: ${
+                        <h3>Subtotal : ${
+
+                              
+
                             data &&  data.reduce( (total,cartItem) => {
 
                             let result = total + (cartItem.product.price * cartItem.quantity)
@@ -145,8 +154,24 @@ const Cart = () => {
                        
                        
                     </div>
-                </div>
+                    <div className="d-flex justify-content-between">
+                        {
+                             (parseInt(total) !== 0) ? 
+                <Link className='text-decoration-none bg-warning text-light fw-bolder rounded p-3' to="/products">Add more products</Link>
+                 :
+                <Link className='text-decoration-none bg-warning text-light fw-bolder rounded p-3' to="/products">Add  products</Link>
+
+                        }
+                {/* <button className='text-decoration-none bg-success text-light fw-bolder rounded p-3'  onClick={()=>{calculateTotal(data)}}>Checkout</button> */}
+              {
+                  (total != 0) ?   <Link className='text-decoration-none bg-success text-light fw-bolder rounded p-3' to="/cart/checkout" >Checkout</Link> :
+                  <button disabled = {true} className='text-decoration-none bg-secondary text-light fw-bolder rounded p-3' to="/cart/checkout" >Checkout</button>
+              }
             </div>
+                </div>
+             
+            </div>
+       
         </div>
         </HomeLayout>
         </>

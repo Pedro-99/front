@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import {Link} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import productService from '../../features/products/productService';
 import cartService from '../../features/Cart/cartService';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -11,6 +12,7 @@ import "swiper/css/thumbs";
 import "./PageDetails.css";
 import { FreeMode, Navigation, Thumbs } from "swiper";
 // import PageDetailsLayout from "../../Layouts/PageDetailsLayout";
+
 import HomeLayout from "../../Layouts/HomeLayout";
 import Stars from '../../Components/rating/stars';
 import { toast } from 'react-toastify';
@@ -19,8 +21,10 @@ import { toast } from 'react-toastify';
 const PageDetails = () => {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [productQty, setProductQty] = useState(0);
+    const [data, setData] = useState(null);
     const {user} = useSelector((state) => state.auth);
     const { shopping_session } = useSelector((state) => state.shopping);
+    const navigate = useNavigate()
 
     const [product, setProduct] = useState([]);
     let { pid } = useParams();
@@ -35,11 +39,8 @@ const PageDetails = () => {
     }, [])
 
     const decrement = () => {setProductQty(productQty - 1)  }
-    const increment = () => {setProductQty(productQty + 1)  } 
-    // useEffect( () => {
-        
-    // })
- 
+    const increment = () => {setProductQty(Math.min(product.quantity,productQty + 1))  } 
+  
 
     return (
 <>
@@ -72,20 +73,26 @@ const PageDetails = () => {
                     
                         </div>
                         <div className="details col-md-6">
+                            
                            {
                               product ? <h3 className="product-title mb-3">{product.name}</h3> : <h3>Loading...</h3>
                            } 
-                            <div className="rating mb-5">
-                            {/* <Stars avg={rating.avg} reviews={rating.count} /> */}
+                            <div className="rating">
+                         
                            {
                               (product && product.id) ?  <Stars id={product.id} /> : <></>
                            }
                             </div>
                             <div>
+                               {
+                                (product && product.quantity === 0) ? <h5 className="text-warning">Not Available</h5> : <h5 className="text-info">Still only {product.quantity} items</h5>
+                               }
+                            </div>
+                            <div>
                             {
                                 (productQty === 0) ? <>
                                     <button className="btn btn-secondary" onClick = {increment}>+</button>
-                            <span className='mx-3'>{productQty}</span>
+                            <span className='mx-3 '>{productQty}</span>
                             <button className="btn btn-secondary" disabled={true} onClick = {decrement }>-</button>
                                 </> : 
                                 <>    <button className="btn btn-secondary" onClick = {increment}>+</button>
@@ -95,7 +102,7 @@ const PageDetails = () => {
                         
                             </div>
                             {
-                                product ?   <p className="product-description"> {product.description}</p> : <>Loading...</>
+                                product ?   <p className="product-description text-secondary fw-bolder mt-3"> {product.description}</p> : <>Loading...</>
                             }
                            {
                                product ?  <h4 className="price">current price: <span>${parseFloat(product.price * productQty).toFixed(2)}</span></h4> : <>Loading</>
@@ -106,23 +113,33 @@ const PageDetails = () => {
                        
                              {
                                  (productQty !== 0) ? ((user !== null) ? 
-                               (  <button
+                               (  
+                               <div className="d-flex flex-row justify-content-between flex-wrap w-100">
+                                  <button
                                  onClick={() => {
-                                    cartService.incrementProductQty(parseInt(pid),shopping_session.id,{ 'quantity' : productQty})
+                                     
+                                    cartService.incrementProductQty(parseInt(pid),shopping_session.id,{ 'quantity' : productQty});
                                     toast.success('product added into cart');
                                     }  } 
                                    className="add-to-cart btn btn-default ms-2"
                                    type="button"
                              >
                                  add to cart
-                                 </button> ) :
+                                 </button>
+                                      <Link className='text-decoration-none bg-warning text-light fw-bolder rounded p-3' to="/products">Add more products</Link>
+                               </div>
+                               ) :
 
                                    ( <button 
                                     onClick= {() => {
-                                               if(!user) toast.warning('you are not logged in');
+                                               if(!user) {
+                                                   toast.warning('you are not logged in');
+                                                   navigate("/login", {replace:true})
+                                                }
+
                                            }}
                                  
-                                    //  disabled={true}
+                                 
                                      className="add-to-cart btn btn-default ms-2" 
                                      type="button">
                                          add to cart
@@ -143,6 +160,7 @@ const PageDetails = () => {
                                
                              
                             </div>
+                            
                         </div>
                     </div>
                 </div>

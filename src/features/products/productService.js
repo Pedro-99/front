@@ -25,13 +25,17 @@ const updateProduct = async (productData,productId) => {
   return response.data
 }
 
-// Get user products
+// Get products
 const getProducts = async () => {
-  // const config = {
-  //   headers: authHeader() 
-  // }
 
-  const response = await axios.get(baseUrl + '/products')
+  const response = await axios.get(baseUrl + `/products`)
+
+  return response.data
+}
+// Get products with pagination
+const getProductsPagination = async (page,size) => {
+
+  const response = await axios.get(baseUrl + `/pagination/products?page=${page}&size=${size}`)
 
   return response.data
 }
@@ -69,6 +73,7 @@ const deleteProduct = async (productId) => {
 const productService = {
   createProduct,
   getProducts,
+  getProductsPagination,
   deleteProduct,
   updateProduct,
   getLatestProducts,
