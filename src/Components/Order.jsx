@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import userService from '../features/users/userService';
+import cartService from '../features/Cart/cartService'
 import orderService from '../features/order/orderService';
 import { placeOrder } from '../features/order/orderSlice';
 import HomeLayout from "../Layouts/HomeLayout";
@@ -14,11 +15,13 @@ import axios from 'axios';
 const CheckoutForm = () => {
   const {orderId} = useParams()
   let session = JSON.parse(localStorage.getItem('session'));
+  
   let cart = JSON.parse(localStorage.getItem('cart'));
   const [localUser, setLocalUser] = useState(null)
   const { user } = useSelector((state) => state.auth)
   const { order } = useSelector((state) => state.order)
   const [localOrder, setLocalOrder] = useState(null)
+  const [orderItems, setOrderItems] = useState(null)
   const [error, setError] = useState(null)
   const [countries, setCountries] = useState([]);
   const [Cities, setCities] = useState([]);
@@ -73,6 +76,35 @@ const CheckoutForm = () => {
 
   // }
 
+    const addOrderItems = () => {
+ 
+    cart.map( async(cartItem) => {
+      
+      const orderItem = {
+        productId : cartItem.productId,
+        // orderDetailId : parseInt(orderId)
+      }
+      
+       await orderService.addOrderItem(orderItem, parseInt(orderId))
+                    .then((done) => {
+                     if(done){
+                      cartService.clearCartItems(session.id); 
+                      // localStorage.removeItem('order')
+                     }
+
+                    })
+                 
+
+
+      
+    })
+    
+  }
+
+  useEffect(() => {
+    addOrderItems()
+  },[orderId])
+
 
 
   const fetchCountries = async () => {
@@ -110,10 +142,14 @@ const CheckoutForm = () => {
   useEffect(() => {
     userService.getUserById(user.id).then((user) => setLocalUser(user))
   }, [])
+  useEffect(() => {
+    orderService.getOrderItems(parseInt(orderId)).then((data) => setOrderItems(data))
+  }, [orderId])
 
 
 
-  // console.log(localUser)
+  // console.log(orderItems)
+  // console.log(localOrder)
   // const submitUserAddress = () => {
 
   // }
@@ -139,8 +175,8 @@ const CheckoutForm = () => {
 
 {
   localOrder ?  <DeliveryInfo
-  isDelivered={localOrder.isPaid}
-  isPaid={localOrder.isDelivered} 
+  isDelivered={localOrder.isDelivered}
+  isPaid={localOrder.isPaid} 
   />
   :
   <div>
@@ -159,7 +195,7 @@ const CheckoutForm = () => {
                 </h4>
                 <ul className="list-group mb-3">
                   {
-                    cart && cart.map((item, index) => {
+                    orderItems && orderItems.map((item, index) => {
                       return (
                         <li key={index} className="list-group-item d-flex justify-content-between lh-sm">
                           <div>
@@ -181,20 +217,26 @@ const CheckoutForm = () => {
           </li> */}
                   <li className="list-group-item d-flex justify-content-between">
                     <span>Subtotal (USD)</span>
-                    <strong className='text-info'>${session.total}</strong>
+                    {
+                      localOrder &&<strong className='text-info'>${localOrder.total}</strong>
+                    }
+                    
                   </li>
                   {/* <li className="list-group-item d-flex justify-content-between">
             <span>Total (USD)</span>
             <strong className='text-info'>xxx</strong>
           </li> */}
                 </ul>
-                <button
+                {
+                  localOrder && !localOrder.isPaid &&   <button
                       onClick={() => {
                         createOrder();
 
                    
                       }}
                       className="bg-warning p-2 text-light fw-bolder text-center w-100 border-success">Paypal</button>
+                }
+              
                 {/* {
                   (order.isPaid !== null) ?
                     (order.isPaid === true) ? <button

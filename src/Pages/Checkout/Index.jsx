@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import userService from '../../features/users/userService';
 import orderService from '../../features/order/orderService';
@@ -17,13 +17,7 @@ const CheckoutForm = () => {
   const [localUser, setLocalUser] = useState(null)
   const { user } = useSelector((state) => state.auth)
   const { order } = useSelector((state) => state.order)
-  const [localOrder, setLocalOrder] = useState({
-    id: order.id,
-    total: order.total,
-    userId: order.userId,
-    isPaid: order.isPaid,
-    isDelivered: order.isDelivered,
-  })
+  const [localOrder, setLocalOrder] = useState(null)
   const [countries, setCountries] = useState([]);
   const [Cities, setCities] = useState([]);
   const [code_postal, setCode_postal] = useState("");
@@ -35,32 +29,30 @@ const CheckoutForm = () => {
   const [localCart, setLocalCart] = useState(cart);
   const [localSession, setSession] = useState(session);
   const [deliveryInfo, setDeliveryInfo] = useState(false);
+  const [isContinue, setIsContinue] = useState(false);
   // console.log("ordced",localOrder)
   // console.log(localCart)
   // console.log(localSession)
 
-
+  const redirect = useNavigate()
   const dispatch = useDispatch();
 
   const createOrder = () => {
-    const order = {
+    const newOrder = {
       total: localSession.total,
       userId: localSession.userId,
       isPaid: false,
       isDelivered: false,
     }
     // orderService.addOrder(order)
-    dispatch(placeOrder(order))
+    if(dispatch(placeOrder(newOrder)) ){
+      
+      setIsContinue(!isContinue)
+    }
   }
-  // const addOrderItems = () => {
- 
-  //   cart.map((cartItem) => {
-  //     return(
-  //       orderService.addOrderItems(cartItem)
-  //     )
-  //   })
-    
-  // }
+
+
+
 
   const fetchCountries = async () => {
     let country = await axios.get(
@@ -100,7 +92,7 @@ const CheckoutForm = () => {
 
 
 
-  // console.log(localUser)
+  // console.log(order)
   // const submitUserAddress = () => {
 
   // }
@@ -184,17 +176,38 @@ const CheckoutForm = () => {
                       className="bg-success p-2 text-light fw-bolder text-center w-100 border-success">Place an order </button>
                 } */}
 
-                <a
-                 href={`/order/${order.id}`}
-                 onClick={() => {
+               {/* {
+                 order && order.id && (
+                  <a
+                  href={`/order/${order.id}`}
+                  onClick={() => {
+ 
+                    createOrder();
+                    // setDeliveryInfo(!deliveryInfo)
+                  }}
+                  className="bg-success p-2 text-light fw-bolder text-center w-100 border-success"
+                 >
+                 Place an order 
+                 </a>
+                 )
+               } */}
 
-                   createOrder();
-                   // setDeliveryInfo(!deliveryInfo)
-                 }}
-                 className="bg-success p-2 text-light fw-bolder text-center w-100 border-success"
-                >
-                Place an order 
-                </a>
+               {
+                isContinue ? <a
+                className="bg-success p-2 text-light fw-bolder text-center w-100 border-success"
+                 href={`/order/${order.id}`}>Continue</a> :    <button
+                // href={`/order/${order.id}`}
+                onClick={() => {
+
+                  createOrder();
+                  // setDeliveryInfo(!deliveryInfo)
+                }}
+                className="bg-success p-2 text-light fw-bolder text-center w-100 border-success"
+               >
+               Place an order 
+               </button>
+               }
+            
 
               
               

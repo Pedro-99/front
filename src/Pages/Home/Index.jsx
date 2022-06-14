@@ -36,7 +36,7 @@ const HomePage = (props) => {
 
          
       
-    }, [dispatch])
+    }, [shopping_session])
 
     useEffect(() => {
 

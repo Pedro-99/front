@@ -33,7 +33,7 @@ const DeliveryInfo = (props) => {
                             Pay method: credit card</p>
                             {
                                 (props.isPaid !== null) ?
-                                props.isPaid ? <span className="p-2 text-light bg-danger fw-bolder">paid</span> : <span className="p-2 text-light fw-bolder bg-danger">not paid</span>
+                                props.isPaid ? <span className="p-2 text-light bg-success fw-bolder">paid</span> : <span className="p-2 text-light fw-bolder bg-danger">not paid</span>
                                 :
                                 <></>
                             }
@@ -49,7 +49,7 @@ const DeliveryInfo = (props) => {
                                 </p>
                                 {
                                 (props.isPaid !== null) ?
-                                props.isDelivered ? <span className="p-2 text-light bg-danger fw-bolder">Delivered</span> : <span className="p-2 text-light fw-bolder bg-danger">not delivered</span> : <></>
+                                props.isDelivered ? <span className="p-2 text-light bg-primary fw-bolder">Delivered</span> : <span className="p-2 text-light fw-bolder bg-danger">not delivered</span> : <></>
                             }
                         </div>
                     </div>
