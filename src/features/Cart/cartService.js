@@ -32,17 +32,54 @@ const removeFromCart = async (sessionId,productId) => {
 const incrementProductQty = async (productId,sessionId,quantity) => {
   
   const response = await axios.post(baseUrl + `/cart/product/${productId}/session/${sessionId}/increment`,quantity);
-  return response.data
+
+  if(response.data) {
+    const result  = await axios.get(baseUrl + `/cart/session/${sessionId}`);
+
+    if(result.data) {
+  
+      localStorage.setItem('cart',JSON.stringify(result.data))
+    }
+    return {
+      data : result.data,
+      response:response.data
+    }
+  }
+
 }
 const removeCartItem = async (productId,sessionId) => {
   
   const response = await axios.delete(baseUrl + `/cart/delete/product/${productId}/session/${sessionId}`);
-  return response.data
+
+  if(response.data) {
+    const result  = await axios.get(baseUrl + `/cart/session/${sessionId}`);
+
+    if(result.data) {
+  
+      localStorage.setItem('cart',JSON.stringify(result.data))
+    }
+    return {
+      data : result.data,
+      response:response.data
+    }
+  }
+ 
 }
 const clearCartItems = async (sessionId) => {
   
   const response = await axios.delete(baseUrl + `/cart/session/${sessionId}/delete/all`);
-  return response.data
+  if(response.data) {
+    const result  = await axios.get(baseUrl + `/cart/session/${sessionId}`);
+
+    if(result.data) {
+  
+      localStorage.setItem('cart',JSON.stringify(result.data))
+    }
+    return {
+      data : result.data,
+      response:response.data
+    }
+  }
 }
 
 const cartService = {

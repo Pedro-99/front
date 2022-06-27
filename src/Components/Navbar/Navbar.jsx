@@ -11,8 +11,8 @@ const Navbar = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const auth = useSelector((state) => state.auth)
+    const {cart} = useSelector((state) => state.cart)
     const [categories, setCategories] = useState(null)
-    // const  cart  = JSON.parse(localStorage.getItem("cart"))
     const ROLE_ADMIN = "ROLE_ADMIN"
 
  
@@ -24,6 +24,9 @@ const Navbar = () => {
 
     }, [])
 
+    // useEffect(() => {
+    //     setCartLeng(cart.length )
+    // },[cart])
  
     const [colorChange, setColorchange] = useState(false);
     const onLogout = () => {
@@ -98,7 +101,29 @@ const Navbar = () => {
                                     <>
                                    
                                       
-                                        <Link to="/cart" className="btn  ms-2" type="submit"><i className="fa fa-shopping-cart me-1"></i></Link>
+                                      
+                                       {
+                                                cart && cart.length ? (
+                                                
+                                                    <Link to="/cart" className="btn  ms-2" type="submit" 
+                                                    style={{'position' : 'relative' }}
+                                                    >
+                                            <i className="fa fa-shopping-cart me-1 "  >
+                                                <span className="border rounded-circle p-1" style={{'position' : 'absolute', 'right' : 0 , 'top' : 0, 'color' : 'white','background' : 'red'}}>{cart.length}</span>
+                                                </i>
+                                                </Link>
+                                             
+                                                )
+                                              :
+                                              <Link to="/cart" className="btn  ms-2" type="submit" 
+                                              style={{'position' : 'relative' }}
+                                              >
+                                      <i className="fa fa-shopping-cart me-1 "  >
+                                          <span className="border rounded-circle p-1" style={{'position' : 'absolute', 'right' : 0 , 'top' : 0, 'color' : 'white','background' : 'red'}}>0</span>
+                                          </i>
+                                          </Link>
+                                            
+                                            }
                                         <form className="d-flex align-items-center text-center justify-content-center">
                                     <div className="btn-group">
                                         <a href="#" className="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">

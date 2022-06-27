@@ -6,6 +6,7 @@ import HomeLayout from '../../Layouts/HomeLayout';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 // import {incrementQty} from '../../features/Cart/cartSlice'
 import cartService from '../../features/Cart/cartService'
+import { removeCartItem, clearAllcartItems } from '../../features/Cart/cartSlice'
 import sessionService from '../../features/session/shoppingService'
 import './Cart.css';
 
@@ -19,7 +20,8 @@ const Cart = () => {
     const [total, setTotal] = useState(0)
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
-    const [onDelete, setOnDelete] = useState(false)
+    const [onDelete, setOnDelete] = useState(false);
+    const dispatch = useDispatch()
 
    
     useEffect(() => {
@@ -102,14 +104,18 @@ const Cart = () => {
                                                     
                                                     </td>
                                                 <td>{item.product.name}</td>
-                                                <td>${item.product.price}</td>
+                                                <td>${item.product.price * item.quantity}</td>
                                                 <td>Quantity: {item.quantity}</td>
                                                 <td>
                                               
                                                   
                                                     <button onClick={() => {
-                                                        
-                                                        cartService.removeCartItem(item.product.id,shopping_session.id)  ;
+                                                        const data = {
+                                                            productId : item.product.id,
+                                                            sessionId : shopping_session.id,
+                                                        }
+                                                        dispatch(removeCartItem(data))
+                                                        // cartService.removeCartItem(item.product.id,shopping_session.id)  ;
                                                         setOnDelete(!onDelete);
                                                        
                                                         toast.error('product removed from cart');
@@ -129,7 +135,8 @@ const Cart = () => {
                     <div className="d-flex justify-content-between py-5">
                         <button onClick={() => {
                             if(parseInt(total) !== 0) {
-                                cartService.clearCartItems(shopping_session.id); 
+                                dispatch(clearAllcartItems(shopping_session.id))
+                                // cartService.clearCartItems(shopping_session.id); 
                                 setOnDelete(!onDelete); 
                                 
                                 toast.error('cart is cleared successfully');

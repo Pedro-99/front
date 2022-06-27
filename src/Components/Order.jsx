@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import userService from '../features/users/userService';
-import cartService from '../features/Cart/cartService'
+import cartService from '../features/Cart/cartService';
+import {clearAllcartItems} from '../features/Cart/cartSlice';
 import orderService from '../features/order/orderService';
 import { placeOrder } from '../features/order/orderSlice';
 import HomeLayout from "../Layouts/HomeLayout";
@@ -16,11 +17,12 @@ const CheckoutForm = () => {
   const {orderId} = useParams()
   let session = JSON.parse(localStorage.getItem('session'));
   
-  let cart = JSON.parse(localStorage.getItem('cart'));
-  const [localUser, setLocalUser] = useState(null)
+  // let cart = JSON.parse(localStorage.getItem('cart'));
   const { user } = useSelector((state) => state.auth)
-  const { order } = useSelector((state) => state.order)
+  const { order } = useSelector((state) => state.order);
+  const { cart } = useSelector((state) => state.cart);
   const [localOrder, setLocalOrder] = useState(null)
+  const [localUser, setLocalUser] = useState(null)
   const [orderItems, setOrderItems] = useState(null)
   const [error, setError] = useState(null)
   const [countries, setCountries] = useState([]);
@@ -34,9 +36,8 @@ const CheckoutForm = () => {
   const [localCart, setLocalCart] = useState(cart);
   const [localSession, setSession] = useState(session);
   const [deliveryInfo, setDeliveryInfo] = useState(false);
-  // console.log("ordced",localOrder)
-  // console.log(localCart)
-  // console.log(localSession)
+  const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(()=>{
     orderService.getOrder(parseInt(orderId))
@@ -60,21 +61,10 @@ const CheckoutForm = () => {
       isDelivered: false,
     }
 
-    // orderService.addOrder(order)
     dispatch(placeOrder(order))
 
   }
-  // const createOrderItem = () => {
-  //   const order = {
-  //     total: localSession.total,
-  //     userId: localSession.userId,
-  //     isPaid: false,
-  //     isDelivered: false,
-  //   }
 
-  //   dispatch(placeOrder(order))
-
-  // }
 
     const addOrderItems = () => {
  
@@ -82,17 +72,19 @@ const CheckoutForm = () => {
       
       const orderItem = {
         productId : cartItem.productId,
-        // orderDetailId : parseInt(orderId)
+        quantity : cartItem.quantity
       }
       
-       await orderService.addOrderItem(orderItem, parseInt(orderId))
-                    .then((done) => {
-                     if(done){
-                      cartService.clearCartItems(session.id); 
-                      // localStorage.removeItem('order')
-                     }
-
-                    })
+        
+        await orderService.addOrderItem(orderItem, parseInt(orderId))
+                     .then((done) => {
+                      if(done){
+                       cartService.clearCartItems(session.id); 
+                      
+                      }
+ 
+                     })
+      
                  
 
 
@@ -143,7 +135,13 @@ const CheckoutForm = () => {
     userService.getUserById(user.id).then((user) => setLocalUser(user))
   }, [])
   useEffect(() => {
-    orderService.getOrderItems(parseInt(orderId)).then((data) => setOrderItems(data))
+    orderService.getOrderItems(parseInt(orderId)).then((data) => {
+      setIsLoading(true);
+      setOrderItems(data);
+      setIsLoading(false);
+
+    })
+   
   }, [orderId])
 
 
@@ -154,6 +152,7 @@ const CheckoutForm = () => {
 
   // }
 
+  if(isLoading) return <div>Loading...</div>
 
   return (
     <HomeLayout>
@@ -190,21 +189,23 @@ const CheckoutForm = () => {
             <div className="row g-5">
               <div className="col-md-5 col-lg-4 order-md-last">
                 <h4 className="d-flex justify-content-between align-items-center mb-3">
-                  <span className="text-primary">Your cart</span>
-                  <span className="badge bg-primary rounded-pill">{cart.length}</span>
+                  <span className="text-primary">Your order</span>
+                  {/* <span className="badge bg-primary rounded-pill">{cart.length}</span> */}
                 </h4>
                 <ul className="list-group mb-3">
                   {
-                    orderItems && orderItems.map((item, index) => {
+                    orderItems ? orderItems.map((item, index) => {
                       return (
                         <li key={index} className="list-group-item d-flex justify-content-between lh-sm">
                           <div>
-                            <h6 className="my-0"><strong>product {index + 1} </strong>{item.product.name}</h6>
+                          <h6 className="my-0"><strong>{item.product.name} </strong> <mark>x</mark> {item.quantity}</h6>
                           </div>
-                          <span className="text-success ">${item.product.price}</span>
+                          <span className="text-success ">${item.product.price * item.quantity}</span>
                         </li>
                       )
                     })
+                    :
+                    <h4>Loading ...</h4>
 
                   }
                   {/* <li className="list-group-item d-flex justify-content-between">

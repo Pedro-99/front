@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {Link} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import productService from '../../features/products/productService';
 import cartService from '../../features/Cart/cartService';
+import { incrementQty } from '../../features/Cart/cartSlice';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -25,6 +26,7 @@ const PageDetails = () => {
     const {user} = useSelector((state) => state.auth);
     const { shopping_session } = useSelector((state) => state.shopping);
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const [product, setProduct] = useState([]);
     let { pid } = useParams();
@@ -117,9 +119,18 @@ const PageDetails = () => {
                                <div className="d-flex flex-row justify-content-between flex-wrap w-100">
                                   <button
                                  onClick={() => {
-                                     
-                                    cartService.incrementProductQty(parseInt(pid),shopping_session.id,{ 'quantity' : productQty});
-                                    toast.success('product added into cart');
+                               
+                                     const data = {
+                                        productId : parseInt(pid),
+                                        sessionId : shopping_session.id,
+                                        productQty : productQty
+
+                                     }
+                                  if(  dispatch(incrementQty(data))){
+
+                                      toast.success('product added into cart');
+                                  }
+                                    // cartService.incrementProductQty(parseInt(pid),shopping_session.id,{ 'quantity' : productQty});
                                     }  } 
                                    className="add-to-cart btn btn-default ms-2"
                                    type="button"

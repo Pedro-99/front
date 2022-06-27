@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import userService from '../../features/users/userService';
 import orderService from '../../features/order/orderService';
-import { placeOrder } from '../../features/order/orderSlice';
+import { placeOrder, reset } from '../../features/order/orderSlice';
+import { clearAllcartItems } from '../../features/Cart/cartSlice'
 import HomeLayout from "../../Layouts/HomeLayout";
 import DeliveryInfo from '../../Components/DeliveryBanner/DeliveryInfo'
 import CheckoutLayout from '../../Layouts/CheckoutLayout'
@@ -15,8 +16,9 @@ const CheckoutForm = () => {
   let session = JSON.parse(localStorage.getItem('session'));
   let cart = JSON.parse(localStorage.getItem('cart'));
   const [localUser, setLocalUser] = useState(null)
-  const { user } = useSelector((state) => state.auth)
-  const { order } = useSelector((state) => state.order)
+  const { user } = useSelector((state) => state.auth);
+  const { order } = useSelector((state) => state.order);
+  const { shopping_session } = useSelector((state) => state.shopping);
   const [localOrder, setLocalOrder] = useState(null)
   const [countries, setCountries] = useState([]);
   const [Cities, setCities] = useState([]);
@@ -45,8 +47,8 @@ const CheckoutForm = () => {
       isDelivered: false,
     }
     // orderService.addOrder(order)
-    if(dispatch(placeOrder(newOrder)) ){
-      
+    if (dispatch(placeOrder(newOrder))) {
+
       setIsContinue(!isContinue)
     }
   }
@@ -104,8 +106,8 @@ const CheckoutForm = () => {
       <div id="checkout" className="py-5 mt-5">
         <div className="container">
           <CheckoutLayout>
-          <main>
-            {/* {
+            <main>
+              {/* {
       (order !== null) ?  <DeliveryInfo
       username={user.username}
       email={user.email}
@@ -116,30 +118,30 @@ const CheckoutForm = () => {
        <></>
     } */}
 
-            <div className="py-5 text-center">
-              <h2>Checkout form</h2>
-            </div>
-            <div className="row g-5">
-              <div className="col-md-5 col-lg-4 order-md-last">
-                <h4 className="d-flex justify-content-between align-items-center mb-3">
-                  <span className="text-primary">Your cart</span>
-                  <span className="badge bg-primary rounded-pill">{cart.length}</span>
-                </h4>
-                <ul className="list-group mb-3">
-                  {
-                    cart && cart.map((item, index) => {
-                      return (
-                        <li key={index} className="list-group-item d-flex justify-content-between lh-sm">
-                          <div>
-                            <h6 className="my-0"><strong>product {index + 1} </strong>{item.product.name}</h6>
-                          </div>
-                          <span className="text-success ">${item.product.price}</span>
-                        </li>
-                      )
-                    })
+              <div className="py-5 text-center">
+                <h2>Checkout form</h2>
+              </div>
+              <div className="row g-5">
+                <div className="col-md-5 col-lg-4 order-md-last">
+                  <h4 className="d-flex justify-content-between align-items-center mb-3">
+                    <span className="text-primary">Your cart</span>
+                    <span className="badge bg-primary rounded-pill">{cart.length}</span>
+                  </h4>
+                  <ul className="list-group mb-3">
+                    {
+                      cart && cart.map((item, index) => {
+                        return (
+                          <li key={index} className="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                              <h6 className="my-0"><strong>{item.product.name} </strong> <mark>x</mark> {item.quantity}</h6>
+                            </div>
+                            <span className="text-success ">${item.product.price * item.quantity}</span>
+                          </li>
+                        )
+                      })
 
-                  }
-                  {/* <li className="list-group-item d-flex justify-content-between">
+                    }
+                    {/* <li className="list-group-item d-flex justify-content-between">
             <span>Shipping</span>
             <strong className='text-info'>xxx</strong>
           </li>
@@ -147,16 +149,16 @@ const CheckoutForm = () => {
             <span>Tax</span>
             <strong className='text-info'>xxx</strong>
           </li> */}
-                  <li className="list-group-item d-flex justify-content-between">
-                    <span>Subtotal (USD)</span>
-                    <strong className='text-info'>${session.total}</strong>
-                  </li>
-                  {/* <li className="list-group-item d-flex justify-content-between">
+                    <li className="list-group-item d-flex justify-content-between">
+                      <span>Subtotal (USD)</span>
+                      <strong className='text-info'>${session.total}</strong>
+                    </li>
+                    {/* <li className="list-group-item d-flex justify-content-between">
             <span>Total (USD)</span>
             <strong className='text-info'>xxx</strong>
           </li> */}
-                </ul>
-                {/* {
+                  </ul>
+                  {/* {
                   (order.isPaid !== null) ?
                     (order.isPaid === true) ? <button
                       onClick={() => {
@@ -176,7 +178,7 @@ const CheckoutForm = () => {
                       className="bg-success p-2 text-light fw-bolder text-center w-100 border-success">Place an order </button>
                 } */}
 
-               {/* {
+                  {/* {
                  order && order.id && (
                   <a
                   href={`/order/${order.id}`}
@@ -192,28 +194,40 @@ const CheckoutForm = () => {
                  )
                } */}
 
-               {
-                isContinue ? <a
-                className="bg-success p-2 text-light fw-bolder text-center w-100 border-success"
-                 href={`/order/${order.id}`}>Continue</a> :    <button
-                // href={`/order/${order.id}`}
-                onClick={() => {
+                  {
+                    isContinue ? <button className="bg-success p-2 text-light fw-bolder text-center w-100 border-success">
+                      <a
+                      className=" text-light fw-bolder text-center "
+                      href={`/order/${order.id}`}
+                      // onClick={()=>
+                      //   {
+                      //   dispatch(clearAllcartItems(shopping_session.id));
+                      //   dispatch(reset())
+                      // }
+                      // }
+                      >
+                        Continue</a>
+                        </button> :
+                      <button
+                        // href={`/order/${order.id}`}
+                        onClick={() => {
 
-                  createOrder();
-                  // setDeliveryInfo(!deliveryInfo)
-                }}
-                className="bg-success p-2 text-light fw-bolder text-center w-100 border-success"
-               >
-               Place an order 
-               </button>
-               }
-            
+                          createOrder();
+                          
+                          // setDeliveryInfo(!deliveryInfo)
+                        }}
+                        className="bg-success p-2 text-light fw-bolder text-center w-100 border-success"
+                      >
+                        Place an order
+                      </button>
+                  }
 
-              
-              
 
-              
-              {/* <div className="col-md-7 col-lg-8">
+
+
+
+
+                  {/* <div className="col-md-7 col-lg-8">
         <h4 className="mb-3">Delivery address</h4>
         <form className="needs-validation" novalidate>
           <div className="row g-3">
@@ -407,9 +421,9 @@ const CheckoutForm = () => {
           <button className="w-100 btn btn-primary btn-lg" type="submit">Continue </button>
         </form>
       </div> */}
-            </div>
-            </div>
-          </main>
+                </div>
+              </div>
+            </main>
           </CheckoutLayout>
         </div>
       </ div>

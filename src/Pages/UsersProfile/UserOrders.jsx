@@ -14,7 +14,7 @@ const UserOrders = () => {
                     })
     },[])
 
-    console.log(orders)
+
 
     return (
         <>
@@ -28,6 +28,9 @@ const UserOrders = () => {
                                <Link
                                 to={`/order/${order.id}`}
                                 className="text-danger"
+                                onClick={()=>{
+                                    localStorage.setItem('order',JSON.stringify(order))
+                                }}
                                >
                                <h4>{order.id}</h4>
                                </Link>

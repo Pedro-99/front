@@ -26,9 +26,38 @@ export const getCart = createAsyncThunk('cart/getcart', async (user, thunkAPI) =
     return thunkAPI.rejectWithValue(message)
   }
 })
-export const incrementQty = createAsyncThunk('product/incrementQty', async (productId,sessionId, thunkAPI) => {
+export const incrementQty = createAsyncThunk('cart/incrementQty', async (data, thunkAPI) => {
+  
+  const {productId,sessionId,productQty} = data
+
   try {
-    return await cartService.incrementProductQty(26,2)
+    return await cartService.incrementProductQty(productId,sessionId,{"quantity" : productQty})
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+export const removeCartItem = createAsyncThunk('cart/removeCartItem', async (data, thunkAPI) => {
+  
+  const {productId,sessionId} = data
+
+  try {
+    return await cartService.removeCartItem(productId,sessionId)
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+export const clearAllcartItems = createAsyncThunk('cart/clearCartItems', async (sessionId, thunkAPI) => {
+  
+  try {
+    return await cartService.clearCartItems(sessionId)
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -64,15 +93,49 @@ export const shoppingSessionSlice = createSlice({
         state.message = action.payload
         state.cart = null
       })
+
       .addCase(incrementQty.pending, (state) => {
         state.isLoading = true
       })
       .addCase(incrementQty.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.message = action.payload.msg
+        state.cart = action.payload.data
+        state.message = action.payload.response.msg
       })
       .addCase(incrementQty.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = null
+        
+      })
+
+      .addCase(removeCartItem.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(removeCartItem.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.cart = action.payload.data
+        state.message = action.payload.response.msg
+      })
+      .addCase(removeCartItem.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = null
+        
+      })
+
+      .addCase(clearAllcartItems.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(clearAllcartItems.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.cart = action.payload.data
+        state.message = action.payload.response.msg
+      })
+      .addCase(clearAllcartItems.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = null
